@@ -5,9 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mind Cue — Prepare your mind for what's next</title>
   <meta name="description" content="Mind Cue connects to your calendar and delivers science-based psychological techniques exactly when you need them. Private, evidence-based.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="fonts/fonts.css">
   <style>
     /* ─── Design tokens — extracted from app icon ─────────────────── */
     :root {
@@ -556,8 +554,17 @@
     }
     @keyframes slideUp { from { opacity:0; transform: translateX(-50%) translateY(20px); } }
     .cookie-banner.hidden { display: none; }
+    .cookie-banner__body { flex: 1; min-width: 0; }
     .cookie-banner__text { font-size: .85rem; color: rgba(255,255,255,.65); line-height: 1.5; }
-    .cookie-banner__text a { color: var(--brand-lt); text-decoration: underline; }
+    .cookie-banner__text a { color: var(--brand-lt); text-decoration: underline; cursor: pointer; }
+    .cookie-banner__details {
+      margin-top: .75rem; padding-top: .75rem;
+      border-top: 1px solid rgba(255,255,255,.08);
+      font-size: .8rem; color: rgba(255,255,255,.55); line-height: 1.55;
+      max-width: 70ch;
+    }
+    .cookie-banner__details p + p { margin-top: .6rem; }
+    .cookie-banner__details a { color: var(--brand-lt); text-decoration: underline; }
     .cookie-banner__actions { display: flex; gap: .75rem; flex-shrink: 0; }
     .btn-cookie-accept {
       padding: .6rem 1.25rem; border-radius: .75rem;
@@ -613,12 +620,19 @@
 
 <!-- ══════════════════ COOKIE BANNER ══════════════════════════════════ -->
 <div class="cookie-banner" id="cookieBanner">
-  <p class="cookie-banner__text">
-    We use only essential cookies to keep the site running. No tracking, no profiling — consistent with Mind Cue's privacy-first values. <a href="#privacy">Learn more ↗</a>
-  </p>
+  <div class="cookie-banner__body">
+    <p class="cookie-banner__text">
+      This site stores a single local preference to remember you dismissed this notice. No cookies, no tracking, no analytics. <a href="#" onclick="toggleCookieDetails(event)" id="cookieMoreLink">Learn more ↓</a>
+    </p>
+    <div class="cookie-banner__details" id="cookieDetails" hidden>
+      <p>This site uses only essential cookies required for basic functionality — specifically, remembering your cookie banner choice so you're not asked again. We do not use analytics cookies, advertising cookies, tracking pixels, or any form of profiling. No data about your visit is collected, stored, or shared with third parties.</p>
+      <p>The site is hosted on GitHub Pages, which may set standard hosting-related cookies outside our control; see <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">GitHub's Privacy Statement</a> for details.</p>
+      <p style="opacity:.7">Last updated: April 2026.</p>
+    </div>
+  </div>
   <div class="cookie-banner__actions">
-    <button class="btn-cookie-reject" onclick="dismissCookie()">Reject all</button>
-    <button class="btn-cookie-accept" onclick="dismissCookie()">Accept essential</button>
+    <button class="btn-cookie-reject" onclick="dismissCookie()">Reject</button>
+    <button class="btn-cookie-accept" onclick="dismissCookie()">OK</button>
   </div>
 </div>
 
@@ -1582,6 +1596,14 @@
   }
 
   // Cookie
+  function toggleCookieDetails(e) {
+    e.preventDefault();
+    const d = document.getElementById('cookieDetails');
+    const link = document.getElementById('cookieMoreLink');
+    const open = d.hasAttribute('hidden');
+    if (open) { d.removeAttribute('hidden'); link.textContent = 'Show less ↑'; }
+    else      { d.setAttribute('hidden', ''); link.textContent = 'Learn more ↓'; }
+  }
   function dismissCookie() {
     document.getElementById('cookieBanner').classList.add('hidden');
     localStorage.setItem('mcCookieDismissed', '1');
