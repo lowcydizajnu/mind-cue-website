@@ -405,6 +405,12 @@
     .privacy-card__title { font-weight: 600; font-size: .9rem; margin-bottom: .25rem; }
     .privacy-card__text  { font-size: .83rem; color: var(--muted); line-height: 1.55; }
 
+    .mode-cards-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1.25rem;
+    }
+    @media(max-width:640px){
+      .mode-cards-grid { grid-template-columns: 1fr; }
+    }
     .mode-card {
       padding: 1.5rem; border-radius: var(--r-lg); border: 1.5px solid var(--border);
       transition: border-color .2s, box-shadow .2s;
@@ -471,6 +477,8 @@
     .accordion-trigger {
       width: 100%; display: flex; align-items: center; justify-content: space-between;
       padding: 1.25rem 1.5rem; gap: 1rem; text-align: left; background: none;
+      color: var(--text); font: inherit; border: 0; cursor: pointer;
+      -webkit-appearance: none; appearance: none;
     }
     .accordion-trigger:hover { background: rgba(193,83,42,.03); }
     .accordion-q       { font-weight: 600; font-size: .92rem; line-height: 1.4; }
@@ -875,7 +883,7 @@
         </div>
         <h3 class="feat__title">AI mode — smart without surrender</h3>
         <p class="feat__text">AI mode uses Claude by Anthropic to classify events and personalise notification copy. Coming soon as a paid option. Without AI, the app delivers intelligent survey-personalised recommendations on-device — built by humans who understand the research.</p>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1.25rem;">
+        <div class="mode-cards-grid">
           <div class="mode-card">
             <div class="mode-card__header"><span class="mode-card__name">AI mode</span><span class="mode-card__badge mode-card__badge--on">Coming soon · Paid</span></div>
             <ul class="mode-card__list">
