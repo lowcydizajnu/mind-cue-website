@@ -648,8 +648,6 @@
       <div class="phone__screen">
         <div class="phone__ph">
           <img src="icon.jpg" class="phone__ph-logo" alt="">
-          <div class="phone__ph-label">screen_learn.png</div>
-          <div class="phone__ph-hint">Drop your screenshot here</div>
         </div>
         <img src="screenshots/screen_learn.png" class="phone__img" alt="Learn tab"
              onerror="this.classList.add('hidden')"
@@ -663,8 +661,6 @@
       <div class="phone__screen">
         <div class="phone__ph">
           <img src="icon.jpg" class="phone__ph-logo" alt="">
-          <div class="phone__ph-label">screen_home.png</div>
-          <div class="phone__ph-hint">Drop your screenshot here</div>
         </div>
         <img src="screenshots/screen_home.png" class="phone__img" alt="Home screen"
              onerror="this.classList.add('hidden')"
@@ -692,8 +688,7 @@
           <div class="phone__screen">
             <div class="phone__ph">
               <img src="icon.jpg" class="phone__ph-logo" alt="">
-              <div class="phone__ph-label">screen_home.png</div>
-              <div class="phone__ph-hint">Home · Calendar view</div>
+                  <div class="phone__ph-hint">Home · Calendar view</div>
             </div>
             <img src="screenshots/screen_home.png" class="phone__img" alt="Home"
                  onerror="this.classList.add('hidden')"
@@ -709,7 +704,6 @@
           <div class="phone__screen">
             <div class="phone__ph">
               <img src="icon.jpg" class="phone__ph-logo" alt="">
-              <div class="phone__ph-label">screen_tip.png</div>
               <div class="phone__ph-hint">Tip detail view</div>
             </div>
             <img src="screenshots/screen_tip.png" class="phone__img" alt="Tip"
@@ -726,7 +720,6 @@
           <div class="phone__screen">
             <div class="phone__ph">
               <img src="icon.jpg" class="phone__ph-logo" alt="">
-              <div class="phone__ph-label">screen_learn.png</div>
               <div class="phone__ph-hint">Learn · Library</div>
             </div>
             <img src="screenshots/screen_learn.png" class="phone__img" alt="Learn"
@@ -743,7 +736,6 @@
           <div class="phone__screen">
             <div class="phone__ph">
               <img src="icon.jpg" class="phone__ph-logo" alt="">
-              <div class="phone__ph-label">screen_insights.png</div>
               <div class="phone__ph-hint">Insights · Reports</div>
             </div>
             <img src="screenshots/screen_insights.png" class="phone__img" alt="Insights"
@@ -788,7 +780,7 @@
         Help people understand their <em>behaviour, thoughts</em> and psychological patterns — and be ready for each day.
       </h3>
       <ul class="purpose-statement__list">
-        <li>Connect your existing iOS calendar — nothing new to build</li>
+        <li>Use Mind Cue's built-in calendar, or optionally connect your iOS calendar — your choice</li>
         <li>Receive a science-based technique minutes before each event type</li>
         <li>Reflect using the structured ABC journal immediately after</li>
         <li>Watch simple, honest insights emerge over time</li>
@@ -814,8 +806,8 @@
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C1532A" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
         </div>
         <span class="tag" style="margin-bottom:.75rem">Core</span>
-        <h3 class="feat__title">Calendar sync — seamless integration</h3>
-        <p class="feat__text">Connect your default iOS Calendar in one tap. Mind Cue reads upcoming events and automatically assigns a psychological category and relevant technique. Add events directly in the app or in any app you already use — it stays in sync.</p>
+        <h3 class="feat__title">Built-in calendar — iOS sync optional</h3>
+        <p class="feat__text">Mind Cue ships with its own calendar, so you can start using it immediately without connecting anything. If you prefer, connect your iOS Calendar in one tap — Mind Cue will read upcoming events and automatically assign a psychological category and relevant technique. Add events directly in the app or in any app you already use — everything stays in sync.</p>
         <div class="feat__visual" style="background:var(--sand);padding:1.5rem;display:flex;gap:.75rem;align-items:center;">
           <div style="flex:1;display:flex;flex-direction:column;gap:.5rem;">
             <div style="background:white;border-radius:.5rem;padding:.6rem .75rem;font-size:.78rem;border-left:3px solid #5B8DB8;box-shadow:0 2px 8px rgba(0,0,0,.06)"><strong style="display:block;font-size:.8rem">📅 Synced from iOS Calendar</strong><span style="color:var(--muted)">Events appear automatically</span></div>
@@ -1010,9 +1002,9 @@
           <div style="font-size:.78rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--brand-lt);margin-bottom:.75rem">Data architecture</div>
           <div style="font-size:.88rem;line-height:1.8;color:rgba(255,255,255,.7)">
             <div style="display:flex;justify-content:space-between;padding:.3rem 0;border-bottom:1px solid rgba(255,255,255,.08)"><span>Journal entries (ABC)</span><span style="color:#F09070;font-weight:500">Device only, encrypted</span></div>
-            <div style="display:flex;justify-content:space-between;padding:.3rem 0;border-bottom:1px solid rgba(255,255,255,.08)"><span>Survey answers</span><span style="color:#F09070;font-weight:500">AES-256 in iCloud</span></div>
-            <div style="display:flex;justify-content:space-between;padding:.3rem 0;border-bottom:1px solid rgba(255,255,255,.08)"><span>Event titles</span><span style="color:#F09070;font-weight:500">Encrypted in Firestore</span></div>
-            <div style="display:flex;justify-content:space-between;padding:.3rem 0;border-bottom:1px solid rgba(255,255,255,.08)"><span>Mood check-ins</span><span style="color:#F09070;font-weight:500">Encrypted in Firestore</span></div>
+            <div style="display:flex;justify-content:space-between;padding:.3rem 0;border-bottom:1px solid rgba(255,255,255,.08)"><span>Survey answers</span><span style="color:#F09070;font-weight:500">AES-256 encrypted, synced via Apple iCloud</span></div>
+            <div style="display:flex;justify-content:space-between;padding:.3rem 0;border-bottom:1px solid rgba(255,255,255,.08)"><span>Event titles</span><span style="color:#F09070;font-weight:500">Encrypted in cloud storage</span></div>
+            <div style="display:flex;justify-content:space-between;padding:.3rem 0;border-bottom:1px solid rgba(255,255,255,.08)"><span>Mood check-ins</span><span style="color:#F09070;font-weight:500">Encrypted in cloud storage</span></div>
             <div style="display:flex;justify-content:space-between;padding:.3rem 0"><span>Participant names</span><span style="color:#F09070;font-weight:500">Never stored or sent</span></div>
           </div>
         </div>
@@ -1030,7 +1022,7 @@
             <div class="privacy-card__icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C1532A" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
             <div>
               <div class="privacy-card__title">Journal never leaves your device</div>
-              <p class="privacy-card__text">ABC journal entries are stored exclusively in Apple SwiftData on your iPhone. They are never synced to any server or cloud service — no way for anyone, including us, to read them. Entries are AES-256 encrypted at rest, so even standard device backups contain only unreadable ciphertext.</p>
+              <p class="privacy-card__text">ABC journal entries are stored exclusively in secure local storage on your iPhone. They are never synced to any server or cloud service — no way for anyone, including us, to read them. Entries are AES-256 encrypted at rest, so even standard device backups contain only unreadable ciphertext.</p>
             </div>
           </div>
           <div class="privacy-card">
@@ -1293,7 +1285,7 @@
           <div class="accordion-body"><div class="accordion-body-inner">
             <p>Events are classified into one of 8 categories: <strong>Meeting, Communication, Focus, Decision, Learning, Administrative, Personal, and Wellbeing</strong>.</p>
             <p><strong>Standard mode:</strong> A rule-based engine matches event title keywords against category patterns. Words like "standup", "sync", "review" match Communication; "write", "code", "design" match Focus; "decide", "vote" match Decision. Runs entirely on-device.</p>
-            <p><strong>AI mode:</strong> The event title (truncated), duration, and participant count string are sent to a Claude cloud function which returns a category and confidence score. This personalises notification copy but never processes descriptions or participant names.</p>
+            <p><strong>AI mode:</strong> The event title (truncated), duration, and participant count string are sent to a secure cloud function which returns a category and confidence score. This personalises notification copy but never processes descriptions or participant names.</p>
           </div></div>
         </div>
 
@@ -1305,7 +1297,7 @@
           <div class="accordion-body"><div class="accordion-body-inner">
             <p>Each technique has a set of event categories it is relevant to, plus a type tag (breathing, mindfulness, cognitive, physical, journaling, or planning).</p>
             <p><strong>Standard mode:</strong> Techniques are filtered by matching event category, then re-ranked by user survey preferences (learning style, prior experience). Back-to-back events prioritise quick (≤5 min) techniques.</p>
-            <p><strong>AI mode:</strong> A cloud function receives the event category, title, whether it is back-to-back, and your goal and trigger labels (from survey payload — never from Firestore). Claude selects a primary technique with a personalised reason and up to two secondary alternatives.</p>
+            <p><strong>AI mode:</strong> A secure cloud function receives the event category, title, whether it is back-to-back, and your goal and trigger labels (from survey payload — never from cloud storage). The model selects a primary technique with a personalised reason and up to two secondary alternatives.</p>
             <p>The notification is delivered 15 minutes before the event, or 30 minutes for longer (&gt;1 hour) events.</p>
           </div></div>
         </div>
@@ -1316,16 +1308,7 @@
             <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
           </button>
           <div class="accordion-body"><div class="accordion-body-inner">
-            <p>The <strong>SurveyPersonalisation engine</strong> scores every bundled technique against your survey answers using a purely additive algorithm:</p>
-            <table class="algo-table">
-              <tr><th>Signal</th><th>Points</th><th>How</th></tr>
-              <tr><td>Primary goal match</td><td>+3</td><td>Technique tagged for your goal (e.g. reduce_stress)</td></tr>
-              <tr><td>Stress trigger match</td><td>+4 total</td><td>+2 per matching trigger, capped at 2 triggers</td></tr>
-              <tr><td>Learning preference</td><td>+2</td><td>Technique type matches preferred style (e.g. breathing)</td></tr>
-              <tr><td>Prior experience</td><td>+1</td><td>Beginner-appropriate techniques scored up for new users</td></tr>
-              <tr><td>Work context</td><td>+1</td><td>Remote workers score higher on async/focus techniques</td></tr>
-            </table>
-            <p style="margin-top:.75rem">Maximum score ≈ 11. Techniques sorted descending, sliced to limit (default 6). Equal-score ties broken by duration — shorter first for busy-day users.</p>
+            <p>The <strong>SurveyPersonalisation engine</strong> scores every bundled technique against your survey answers using a deterministic, additive algorithm. Signals include primary goal match, stress trigger overlap, learning preference, prior experience level, and work context. Techniques are ranked by score and sliced to a display limit (default 6); ties are broken by duration — shorter first for busy-day users. The full scoring logic is documented and auditable on request.</p>
           </div></div>
         </div>
 
@@ -1359,7 +1342,7 @@
             <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
           </button>
           <div class="accordion-body"><div class="accordion-body-inner">
-            <p><strong>Event classification:</strong> Event title, duration in minutes, participant count as a string (e.g. "3 participants"), and the first 150 characters of the description if one exists — never full descriptions, never participant names.</p>
+            <p><strong>Event classification:</strong> Event title, duration, participant count (as an anonymised string), and a truncated description snippet for classification purposes only — never full descriptions, never participant names.</p>
             <p><strong>Tip selection:</strong> Event title, category, whether back-to-back, your primary goal label (e.g. "reduce_stress"), and stress trigger labels. No free-text.</p>
             <p><strong>Recommendations:</strong> Survey category labels only — primaryGoal, stressTriggers, learningPreference, workContext. These are passed in the function payload from your device. Survey data in Firestore is encrypted and the function has no decryption key — it never reads it.</p>
             <p>Anthropic does not train on API data. See <a href="https://www.anthropic.com/privacy" style="color:var(--brand)">anthropic.com/privacy</a> for full details.</p>
@@ -1377,7 +1360,7 @@
             <strong>B — Belief:</strong> What did you tell yourself in that moment?<br>
             <strong>C — Consequence:</strong> What did you feel and do as a result?</p>
             <p>An optional fourth field records an <strong>alternative thought</strong> — a more balanced interpretation.</p>
-            <p><strong>Storage:</strong> Entries are stored exclusively in Apple SwiftData on your iPhone, encrypted with AES-256-GCM. They are never synced to Firestore or any server, never included in any API call. Standard device backups (iCloud Backup) may contain the encrypted file, but without your iCloud Keychain key it is unreadable ciphertext. Deleting your account also wipes the local journal from your device.</p>
+            <p><strong>Storage:</strong> Entries are stored exclusively in secure local storage on your iPhone, encrypted with AES-256-GCM. They are never synced to any server, never included in any API call. Standard device backups (iCloud Backup) may contain the encrypted file, but without your iCloud Keychain key it is unreadable ciphertext. Deleting your account also wipes the local journal from your device.</p>
           </div></div>
         </div>
 
@@ -1391,7 +1374,7 @@
             <p>· End-to-end encrypted by Apple before leaving your device<br>
             · Automatically synced to all your Apple devices via iCloud Keychain<br>
             · Restored automatically on reinstall if iCloud is signed in<br>
-            · Never visible to Anthropic, Firebase, or Mind Cue</p>
+            · Never visible to Mind Cue or any third party</p>
             <p>Journal entries do not sync across devices by design — privacy over convenience for the most sensitive data.</p>
           </div></div>
         </div>

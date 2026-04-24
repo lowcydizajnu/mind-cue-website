@@ -1,0 +1,4 @@
+Contact: mailto:mindcue@pm.me
+Preferred-Languages: en, pl
+Canonical: https://lowcydizajnu.github.io/mind-cue-website/.well-known/security.txt
+Expires: 2027-04-24T00:00:00.000Z
