@@ -103,8 +103,34 @@
     .nav__links a { font-size: .88rem; color: var(--muted); transition: color .2s; }
     .nav__links a:hover { color: var(--text); }
     .nav__cta { display: flex; align-items: center; gap: .75rem; }
-    .nav__hamburger { display: none; flex-direction: column; gap: 5px; padding: .5rem; }
-    .nav__hamburger span { display: block; width: 22px; height: 2px; background: var(--text); border-radius: 2px; }
+    .nav__hamburger {
+      display: none; flex-direction: column; gap: 5px; padding: .5rem;
+      background: none; border: 0; cursor: pointer;
+      position: relative; z-index: 110;
+    }
+    .nav__hamburger span { display: block; width: 22px; height: 2px; background: var(--text); border-radius: 2px; transition: transform .3s var(--ease), opacity .2s; }
+    .nav__hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav__hamburger.open span:nth-child(2) { opacity: 0; }
+    .nav__hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    .nav__mobile {
+      display: none;
+      position: fixed; inset: 0; z-index: 100;
+      background: var(--cream);
+      padding: 5.5rem 2rem 2rem;
+      flex-direction: column; gap: .25rem;
+      overflow-y: auto;
+    }
+    .nav__mobile.open { display: flex; }
+    .nav__mobile a {
+      font-family: var(--font-serif); font-size: 1.75rem; font-weight: 500;
+      color: var(--text); padding: 1rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .nav__mobile .btn {
+      margin-top: 1.5rem; align-self: flex-start;
+      font-family: inherit; font-size: .95rem; font-weight: 500;
+    }
 
     @media(max-width:768px){
       .nav__links, .nav__cta { display: none; }
@@ -615,10 +641,19 @@
       <div class="nav__cta">
         <a href="#" class="btn btn-outline" style="padding:.6rem 1.2rem;font-size:.85rem">Coming to App Store</a>
       </div>
-      <button class="nav__hamburger" aria-label="Menu">
+      <button class="nav__hamburger" id="navHamburger" aria-label="Menu" aria-expanded="false" aria-controls="navMobile" onclick="toggleMobileNav()">
         <span></span><span></span><span></span>
       </button>
     </div>
+  </div>
+  <div class="nav__mobile" id="navMobile">
+    <a href="#features" onclick="closeMobileNav()">Features</a>
+    <a href="#screens" onclick="closeMobileNav()">Screenshots</a>
+    <a href="#usecases" onclick="closeMobileNav()">Use Cases</a>
+    <a href="#research" onclick="closeMobileNav()">Research</a>
+    <a href="#faq" onclick="closeMobileNav()">FAQ</a>
+    <a href="#contact" onclick="closeMobileNav()">Contact</a>
+    <a href="#" class="btn btn-outline" onclick="closeMobileNav()">Coming to App Store</a>
   </div>
 </nav>
 
@@ -1529,6 +1564,22 @@
   window.addEventListener('scroll', () => {
     nav.classList.toggle('scrolled', window.scrollY > 40);
   }, { passive: true });
+
+  // Mobile nav
+  function toggleMobileNav() {
+    const h = document.getElementById('navHamburger');
+    const m = document.getElementById('navMobile');
+    const isOpen = m.classList.toggle('open');
+    h.classList.toggle('open', isOpen);
+    h.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+  }
+  function closeMobileNav() {
+    document.getElementById('navHamburger').classList.remove('open');
+    document.getElementById('navMobile').classList.remove('open');
+    document.getElementById('navHamburger').setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+  }
 
   // Cookie
   function dismissCookie() {
