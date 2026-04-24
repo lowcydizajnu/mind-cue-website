@@ -1,0 +1,1584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mind Cue — Prepare your mind for what's next</title>
+  <meta name="description" content="Mind Cue connects to your calendar and delivers science-based psychological techniques exactly when you need them. Free, private, evidence-based.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ─── Design tokens — extracted from app icon ─────────────────── */
+    :root {
+      /* Brand terracotta palette */
+      --brand:      #C1532A;   /* icon background — main brand */
+      --brand-md:   #D9694A;   /* mid terracotta */
+      --brand-lt:   #F09070;   /* salmon — icon shape colour */
+      --brand-dk:   #8B3518;   /* dark terracotta */
+      --brand-pale: #FAEAE4;   /* very light blush */
+
+      /* Neutrals */
+      --dark:   #1E0C06;       /* near-black warm brown — dark sections */
+      --cream:  #FAF7F4;       /* warm off-white */
+      --sand:   #F0E6DC;       /* warm sand */
+      --text:   #1A0E08;       /* body text */
+      --muted:  #7A6055;       /* secondary text */
+      --white:  #FFFFFF;
+      --border: rgba(30,12,6,.10);
+
+      --font-serif: 'Cormorant Garamond', Georgia, serif;
+      --font-sans:  'Inter', system-ui, sans-serif;
+      --r-sm: .5rem; --r-md: 1rem; --r-lg: 1.5rem; --r-xl: 2rem;
+      --ease: cubic-bezier(.22,.68,0,1.2);
+    }
+
+    /* ─── Reset ────────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--cream);
+      color: var(--text);
+      font-family: var(--font-sans);
+      font-size: 1rem;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    img, svg { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+    button { cursor: pointer; font-family: inherit; border: none; background: none; }
+
+    /* ─── Utilities ─────────────────────────────────────────────────── */
+    .container { width: 100%; max-width: 1280px; margin: 0 auto; padding: 0 2rem; }
+
+    .tag {
+      display: inline-block;
+      font-size: .72rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase;
+      color: var(--brand); background: rgba(193,83,42,.10);
+      padding: .3rem .8rem; border-radius: 2rem;
+    }
+    .tag--lt  { color: var(--brand-lt); background: rgba(240,144,112,.15); }
+    .tag--pale { color: var(--brand-dk); background: rgba(139,53,24,.12); }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: .5rem;
+      padding: .875rem 1.75rem; border-radius: var(--r-md);
+      font-size: .9rem; font-weight: 500;
+      transition: transform .2s var(--ease), box-shadow .2s;
+    }
+    .btn-primary {
+      background: var(--brand); color: var(--white);
+      box-shadow: 0 4px 20px rgba(193,83,42,.35);
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(193,83,42,.48); }
+    .btn-outline { border: 1.5px solid var(--border); color: var(--text); }
+    .btn-outline:hover { border-color: var(--brand); color: var(--brand); }
+    .btn-ghost { color: var(--muted); }
+    .btn-ghost:hover { color: var(--text); }
+
+    /* ─── Nav ──────────────────────────────────────────────────────── */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      transition: background .3s, backdrop-filter .3s, box-shadow .3s;
+    }
+    .nav.scrolled {
+      background: rgba(250,247,244,.90);
+      backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+      box-shadow: 0 1px 0 var(--border);
+    }
+    .nav__inner {
+      display: flex; align-items: center; justify-content: space-between;
+      height: 4.5rem;
+    }
+    .nav__logo {
+      display: flex; align-items: center; gap: .7rem;
+      font-family: var(--font-serif); font-size: 1.35rem; font-weight: 600;
+    }
+    .nav__logo img {
+      width: 34px; height: 34px; border-radius: 8px;
+      object-fit: cover;
+    }
+    .nav__links { display: flex; align-items: center; gap: 2rem; list-style: none; }
+    .nav__links a { font-size: .88rem; color: var(--muted); transition: color .2s; }
+    .nav__links a:hover { color: var(--text); }
+    .nav__cta { display: flex; align-items: center; gap: .75rem; }
+    .nav__hamburger { display: none; flex-direction: column; gap: 5px; padding: .5rem; }
+    .nav__hamburger span { display: block; width: 22px; height: 2px; background: var(--text); border-radius: 2px; }
+
+    @media(max-width:768px){
+      .nav__links, .nav__cta { display: none; }
+      .nav__hamburger { display: flex; }
+    }
+
+    /* ─── Hero ─────────────────────────────────────────────────────── */
+    .hero {
+      min-height: 100svh;
+      display: grid; grid-template-columns: 1fr 1fr;
+      align-items: center; padding-top: 5rem; overflow: hidden; position: relative;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 65% 70% at 68% 50%, rgba(240,144,112,.14) 0%, transparent 68%);
+      pointer-events: none;
+    }
+    .hero__text {
+      padding: 4rem 2rem 4rem max(2rem, calc((100vw - 1280px)/2 + 2rem));
+    }
+    .hero__eyebrow { margin-bottom: 1.5rem; }
+    .hero__headline {
+      font-family: var(--font-serif);
+      font-size: clamp(3rem, 5vw, 5.5rem);
+      font-weight: 500; line-height: 1.06; letter-spacing: -.02em;
+      margin-bottom: 1.5rem;
+    }
+    .hero__headline em { font-style: italic; color: var(--brand); }
+    .hero__sub {
+      font-size: 1.1rem; color: var(--muted); line-height: 1.7;
+      max-width: 42ch; margin-bottom: 2.5rem;
+    }
+    .hero__actions { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+    .hero__badge {
+      margin-top: 3rem; display: flex; align-items: center; gap: 1.5rem;
+      font-size: .82rem; color: var(--muted);
+    }
+    .hero__badge-item { display: flex; align-items: center; gap: .4rem; }
+    .hero__badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--brand-lt); }
+
+    .hero__visual {
+      position: relative; display: flex; align-items: center; justify-content: center;
+      height: 100%; padding: 2rem;
+    }
+    @keyframes float  { 0%,100%{transform:translateY(0)}     50%{transform:translateY(-14px)} }
+    @keyframes floatB { 0%,100%{transform:rotate(6deg) translateY(0)} 50%{transform:rotate(6deg) translateY(-10px)} }
+
+    /* ─── Phone frame component (iPhone 15 Pro — natural titanium) ──── */
+    .phone {
+      position: relative; flex-shrink: 0;
+      background:
+        linear-gradient(135deg, #3a3a3c 0%, #5a5a5c 18%, #2e2e30 38%, #6d6d6f 58%, #3a3a3c 78%, #555557 100%);
+      border-radius: 48px; padding: 6px;
+      box-shadow:
+        inset 0 0 0 1.5px rgba(255,255,255,.12),
+        inset 0 0 0 2.5px rgba(0,0,0,.55),
+        inset 0 2px 3px rgba(255,255,255,.18),
+        inset 0 -2px 3px rgba(0,0,0,.35),
+        0 50px 110px rgba(10,6,4,.35),
+        0 18px 36px rgba(10,6,4,.22),
+        0 4px 10px rgba(10,6,4,.15);
+    }
+    /* power (wake) button — right side */
+    .phone::before {
+      content: '';
+      position: absolute; right: -2.5px; top: 135px;
+      width: 3px; height: 78px;
+      background: linear-gradient(90deg, #2a2a2c 0%, #4a4a4c 50%, #2a2a2c 100%);
+      border-radius: 0 2px 2px 0;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.15), -1px 0 2px rgba(0,0,0,.4);
+    }
+    /* left-side buttons: action button + volume up + volume down */
+    .phone::after {
+      content: '';
+      position: absolute; left: -2.5px;
+      top: 92px; width: 3px; height: 28px;
+      background: linear-gradient(90deg, #2a2a2c 0%, #4a4a4c 50%, #2a2a2c 100%);
+      border-radius: 2px 0 0 2px;
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.15),
+        1px 0 2px rgba(0,0,0,.4),
+        0 48px 0 -0px #3a3a3c,
+        0 48px 0 0px #3a3a3c;
+    }
+    .phone--lg { width: 262px; }
+    .phone--sm { width: 218px; }
+
+    /* volume buttons rendered as additional children via box-shadow trick */
+    .phone__notch {
+      /* Dynamic Island — floating black pill */
+      position: absolute; top: 14px; left: 50%; transform: translateX(-50%);
+      width: 32%; min-width: 92px; max-width: 118px; height: 27px;
+      background: #000;
+      border-radius: 18px; z-index: 10;
+      box-shadow:
+        inset 0 0 0 1px rgba(255,255,255,.04),
+        inset 0 1px 2px rgba(255,255,255,.06),
+        0 1px 2px rgba(0,0,0,.5);
+    }
+    /* camera + sensor inside Dynamic Island */
+    .phone__notch::before {
+      content: '';
+      position: absolute; top: 50%; right: 10px; transform: translateY(-50%);
+      width: 9px; height: 9px; border-radius: 50%;
+      background: radial-gradient(circle at 35% 30%, #2b3850 0%, #0a0f1c 55%, #000 100%);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.08);
+    }
+    .phone__notch::after {
+      content: '';
+      position: absolute; top: 50%; left: 14px; transform: translateY(-50%);
+      width: 5px; height: 5px; border-radius: 50%;
+      background: #0d0d0f;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.05);
+    }
+    .phone__screen {
+      border-radius: 42px; overflow: hidden;
+      position: relative; background: #0a0a0a;
+      aspect-ratio: 393/852;
+      box-shadow: inset 0 0 0 2px #000;
+    }
+    /* glass reflection overlay */
+    .phone__screen::after {
+      content: '';
+      position: absolute; inset: 0;
+      border-radius: inherit;
+      background:
+        linear-gradient(115deg, rgba(255,255,255,.12) 0%, rgba(255,255,255,0) 22%, rgba(255,255,255,0) 70%, rgba(255,255,255,.06) 100%);
+      pointer-events: none; z-index: 5;
+      mix-blend-mode: overlay;
+    }
+    .phone__img {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: top;
+    }
+    .phone__img.hidden { display: none; }
+    .phone__ph {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: .65rem;
+      background: linear-gradient(155deg, var(--sand), var(--brand-pale));
+      text-align: center;
+    }
+    .phone__ph-logo   { width: 42px; height: 42px; border-radius: 11px; opacity: .55; }
+    .phone__ph-label  { font-size: .68rem; font-family: 'Courier New', monospace; color: var(--brand); background: rgba(193,83,42,.1); padding: .2rem .55rem; border-radius: .3rem; }
+    .phone__ph-hint   { font-size: .7rem; color: var(--muted); }
+
+    /* hero phone positions */
+    .hero__phone-front {
+      position: relative; z-index: 2;
+      animation: float 6s ease-in-out infinite;
+    }
+    .hero__phone-back {
+      position: absolute; right: 1.5rem; top: 5rem;
+      opacity: .5; z-index: 1;
+      animation: floatB 6s ease-in-out infinite .8s;
+    }
+
+    /* ─── Screenshots gallery ────────────────────────────────────────── */
+    .screens-gallery {
+      display: flex; justify-content: center; align-items: flex-start;
+      gap: 2.5rem; flex-wrap: wrap;
+      margin-top: 3.5rem;
+    }
+    .screen-item { display: flex; flex-direction: column; align-items: center; gap: 1.25rem; }
+    .screen-item .phone { transition: transform .3s var(--ease), box-shadow .3s; }
+    .screen-item:hover .phone { transform: translateY(-6px) scale(1.02); box-shadow: inset 0 0 0 1px rgba(255,255,255,.4), 0 55px 110px rgba(30,12,6,.28); }
+    .screen-label {
+      font-size: .8rem; font-weight: 600; color: var(--muted);
+      letter-spacing: .04em; text-transform: uppercase;
+    }
+
+    /* ─── Sections ──────────────────────────────────────────────────── */
+    .section { padding: 6rem 0; }
+    .section--dark { background: var(--dark); color: var(--white); }
+    .section--sand { background: var(--sand); }
+
+    .section__header { margin-bottom: 3.5rem; }
+    .section__title {
+      font-family: var(--font-serif);
+      font-size: clamp(2.25rem, 4vw, 3.75rem);
+      font-weight: 500; line-height: 1.12; letter-spacing: -.02em;
+      margin-top: .75rem;
+    }
+    .section__sub {
+      font-size: 1.05rem; color: var(--muted); max-width: 52ch;
+      margin-top: 1rem; line-height: 1.7;
+    }
+    .section--dark .section__sub { color: rgba(255,255,255,.5); }
+
+    /* ─── Purpose dark section ──────────────────────────────────────── */
+    .purpose-grid {
+      display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2px;
+      background: rgba(255,255,255,.05); border-radius: var(--r-xl); overflow: hidden;
+      margin-top: 3rem;
+    }
+    .purpose-card {
+      padding: 2.5rem;
+      background: rgba(255,255,255,.03);
+      transition: background .2s;
+    }
+    .purpose-card:hover { background: rgba(255,255,255,.06); }
+    .purpose-card__num {
+      font-family: var(--font-serif); font-size: 3.5rem; font-weight: 300;
+      color: var(--brand-lt); line-height: 1; margin-bottom: 1rem;
+    }
+    .purpose-card__title { font-weight: 500; font-size: 1.05rem; margin-bottom: .6rem; }
+    .purpose-card__text { font-size: .9rem; color: rgba(255,255,255,.45); line-height: 1.65; }
+
+    .purpose-statement {
+      border-top: 1px solid rgba(255,255,255,.07);
+      margin-top: 3rem; padding-top: 3rem;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center;
+    }
+    .purpose-statement__quote {
+      font-family: var(--font-serif);
+      font-size: clamp(1.5rem, 2.5vw, 2.25rem);
+      font-weight: 400; line-height: 1.35; color: rgba(255,255,255,.9);
+    }
+    .purpose-statement__quote em { color: var(--brand-lt); font-style: italic; }
+    .purpose-statement__list { list-style: none; display: flex; flex-direction: column; gap: .9rem; }
+    .purpose-statement__list li {
+      display: flex; align-items: flex-start; gap: .75rem;
+      font-size: .92rem; color: rgba(255,255,255,.55);
+    }
+    .purpose-statement__list li::before {
+      content: ''; display: block; width: 6px; height: 6px; border-radius: 50%;
+      background: var(--brand-lt); margin-top: .55rem; flex-shrink: 0;
+    }
+
+    /* ─── Features ──────────────────────────────────────────────────── */
+    .features-grid {
+      display: grid; grid-template-columns: repeat(12,1fr); gap: 1.25rem;
+    }
+    .feat {
+      padding: 2rem; border-radius: var(--r-lg);
+      border: 1px solid var(--border); background: var(--white);
+      transition: box-shadow .25s, transform .25s var(--ease);
+    }
+    .feat:hover { box-shadow: 0 12px 40px rgba(30,12,6,.08); transform: translateY(-3px); }
+    .feat--wide  { grid-column: span 7; }
+    .feat--med   { grid-column: span 5; }
+    .feat--third { grid-column: span 4; }
+    .feat--half  { grid-column: span 6; }
+
+    .feat__icon {
+      width: 44px; height: 44px; border-radius: .75rem;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 1.25rem;
+      background: rgba(193,83,42,.10);
+    }
+    .feat__icon--pale  { background: rgba(240,144,112,.15); }
+    .feat__icon--slate { background: rgba(30,12,6,.07); }
+    .feat__title { font-weight: 600; font-size: 1.05rem; margin-bottom: .5rem; }
+    .feat__text  { font-size: .9rem; color: var(--muted); line-height: 1.65; }
+    .feat__visual { margin-top: 1.5rem; border-radius: var(--r-md); overflow: hidden; }
+
+    /* ─── Science ───────────────────────────────────────────────────── */
+    .science-layout { display: grid; grid-template-columns: 5fr 7fr; gap: 5rem; align-items: start; }
+    .science-stats  { display: flex; flex-direction: column; gap: 2rem; }
+    .science-stat__num {
+      font-family: var(--font-serif); font-size: 4rem; font-weight: 500;
+      color: var(--brand); line-height: 1;
+    }
+    .science-stat__label { font-size: .85rem; color: var(--muted); margin-top: .25rem; }
+    .science-divider { width: 40px; height: 2px; background: var(--sand); }
+
+    .articles-list  { display: flex; flex-direction: column; gap: 1.25rem; }
+    .article-item {
+      display: grid; grid-template-columns: auto 1fr; gap: 1rem; align-items: start;
+      padding: 1.25rem; border: 1px solid var(--border);
+      border-radius: var(--r-md); background: var(--white);
+      transition: border-color .2s;
+    }
+    .article-item:hover { border-color: var(--brand-lt); }
+    .article-item__year {
+      font-family: var(--font-serif); font-size: 1.25rem; font-weight: 500;
+      color: var(--brand); min-width: 3.5rem; padding-top: .1rem;
+    }
+    .article-item__title  { font-weight: 500; font-size: .9rem; line-height: 1.4; margin-bottom: .25rem; }
+    .article-item__authors { font-size: .8rem; color: var(--muted); }
+    .article-item__journal { font-size: .78rem; color: var(--brand-lt); margin-top: .2rem; font-style: italic; }
+
+    /* ─── Privacy ───────────────────────────────────────────────────── */
+    .privacy-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+    .privacy-cards  { display: flex; flex-direction: column; gap: 1rem; }
+    .privacy-card {
+      display: flex; gap: 1rem; align-items: flex-start;
+      padding: 1.25rem 1.5rem; border-radius: var(--r-md);
+      background: var(--white); border: 1px solid var(--border);
+    }
+    .privacy-card__icon {
+      width: 38px; height: 38px; flex-shrink: 0; border-radius: .6rem;
+      background: rgba(193,83,42,.08);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .privacy-card__title { font-weight: 600; font-size: .9rem; margin-bottom: .25rem; }
+    .privacy-card__text  { font-size: .83rem; color: var(--muted); line-height: 1.55; }
+
+    .mode-card {
+      padding: 1.5rem; border-radius: var(--r-lg); border: 1.5px solid var(--border);
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .mode-card:hover { border-color: var(--brand); box-shadow: 0 4px 20px rgba(193,83,42,.1); }
+    .mode-card__header { display: flex; align-items: center; justify-content: space-between; margin-bottom: .75rem; }
+    .mode-card__name   { font-weight: 600; font-size: .9rem; }
+    .mode-card__badge  { font-size: .72rem; font-weight: 600; letter-spacing: .06em; padding: .25rem .6rem; border-radius: 2rem; }
+    .mode-card__badge--on  { background: rgba(193,83,42,.12); color: var(--brand); }
+    .mode-card__badge--off { background: rgba(30,12,6,.07); color: var(--muted); }
+    .mode-card__list { list-style: none; font-size: .82rem; color: var(--muted); display: flex; flex-direction: column; gap: .45rem; }
+    .mode-card__list li { display: flex; align-items: flex-start; gap: .5rem; }
+    .mode-card__list li::before { content: '→'; color: var(--brand-lt); flex-shrink: 0; }
+
+    /* ─── Use Cases ─────────────────────────────────────────────────── */
+    .usecases-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 3rem; }
+    .usecase-card { border-radius: var(--r-xl); overflow: hidden; border: 1px solid var(--border); background: var(--white); }
+    .usecase-card__header {
+      padding: 2rem 2rem 1.5rem;
+      display: flex; align-items: flex-start; justify-content: space-between;
+    }
+    .usecase-card__scenario {
+      font-size: .78rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: .5rem;
+    }
+    .usecase-card__title {
+      font-family: var(--font-serif); font-size: 1.6rem; font-weight: 500; line-height: 1.2;
+    }
+    .usecase-card__emoji { font-size: 2.25rem; flex-shrink: 0; }
+    .usecase-card__body  { padding: 0 2rem 2rem; }
+    .usecase-card__narrative { font-size: .9rem; color: var(--muted); line-height: 1.7; margin-bottom: 1.25rem; }
+    .usecase-card__solution {
+      padding: 1rem 1.25rem; background: rgba(193,83,42,.06);
+      border-radius: var(--r-md); border-left: 3px solid var(--brand);
+      font-size: .85rem; color: var(--text); line-height: 1.6;
+    }
+    .usecase-card__solution strong { color: var(--brand); }
+    .usecase-card__visual { height: 180px; overflow: hidden; border-top: 1px solid var(--border); }
+
+    /* ─── Studies ───────────────────────────────────────────────────── */
+    .research-intro { display: grid; grid-template-columns: 5fr 7fr; gap: 4rem; align-items: start; margin-bottom: 3rem; }
+    .studies-grid   { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.25rem; }
+    .study-card { padding: 1.5rem; border-radius: var(--r-lg); border: 1px solid var(--border); background: var(--white); }
+    .study-card__domain {
+      font-size: .72rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
+      color: var(--brand); margin-bottom: .75rem;
+    }
+    .study-card__title  { font-weight: 600; font-size: .92rem; line-height: 1.4; margin-bottom: .5rem; }
+    .study-card__meta   { font-size: .8rem; color: var(--muted); line-height: 1.4; }
+    .study-card__finding {
+      margin-top: 1rem; padding: .75rem 1rem; background: var(--sand);
+      border-radius: .5rem; font-size: .82rem; line-height: 1.5; color: var(--text);
+    }
+
+    /* ─── FAQ ───────────────────────────────────────────────────────── */
+    .faq-layout { display: grid; grid-template-columns: 4fr 8fr; gap: 4rem; }
+    .faq-sidebar__sticky { position: sticky; top: 6rem; }
+    .faq-sidebar__title { font-family: var(--font-serif); font-size: 2rem; font-weight: 500; margin-bottom: 1rem; }
+    .faq-sidebar__text  { font-size: .9rem; color: var(--muted); line-height: 1.65; }
+
+    .accordion { display: flex; flex-direction: column; gap: .75rem; }
+    .accordion-item { border: 1px solid var(--border); border-radius: var(--r-md); overflow: hidden; background: var(--white); }
+    .accordion-item.open { box-shadow: 0 4px 20px rgba(30,12,6,.06); }
+    .accordion-trigger {
+      width: 100%; display: flex; align-items: center; justify-content: space-between;
+      padding: 1.25rem 1.5rem; gap: 1rem; text-align: left; background: none;
+    }
+    .accordion-trigger:hover { background: rgba(193,83,42,.03); }
+    .accordion-q       { font-weight: 600; font-size: .92rem; line-height: 1.4; }
+    .accordion-chevron { flex-shrink: 0; width: 20px; height: 20px; transition: transform .3s var(--ease); }
+    .accordion-item.open .accordion-chevron { transform: rotate(180deg); }
+    .accordion-body       { max-height: 0; overflow: hidden; transition: max-height .4s var(--ease); }
+    .accordion-body-inner { padding: 0 1.5rem 1.5rem; font-size: .88rem; color: var(--muted); line-height: 1.75; }
+    .accordion-body-inner p + p { margin-top: .75rem; }
+    .accordion-body-inner strong { color: var(--text); }
+    .algo-table { width: 100%; border-collapse: collapse; margin-top: 1rem; font-size: .82rem; }
+    .algo-table th, .algo-table td { text-align: left; padding: .5rem .75rem; border-bottom: 1px solid var(--sand); }
+    .algo-table th { font-weight: 600; color: var(--text); background: var(--sand); }
+
+    /* ─── Contact ───────────────────────────────────────────────────── */
+    .contact-layout { display: grid; grid-template-columns: 5fr 7fr; gap: 4rem; align-items: center; }
+    .contact-link {
+      display: flex; align-items: center; gap: 1rem; padding: 1rem 1.25rem;
+      border-radius: var(--r-md); border: 1px solid var(--border); background: var(--white);
+      font-size: .9rem; font-weight: 500; transition: border-color .2s, box-shadow .2s;
+    }
+    .contact-link:hover { border-color: var(--brand); box-shadow: 0 4px 16px rgba(193,83,42,.12); }
+    .contact-link svg { color: var(--brand); flex-shrink: 0; }
+
+    /* ─── Footer ────────────────────────────────────────────────────── */
+    footer { background: var(--dark); color: rgba(255,255,255,.5); padding: 3rem 0; }
+    .footer-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1.5rem;
+    }
+    .footer-logo {
+      display: flex; align-items: center; gap: .6rem;
+      font-family: var(--font-serif); color: var(--white); font-size: 1.1rem;
+    }
+    .footer-logo img { width: 26px; height: 26px; border-radius: 6px; }
+    .footer-links { display: flex; gap: 1.5rem; font-size: .82rem; }
+    .footer-links a { color: rgba(255,255,255,.4); transition: color .2s; }
+    .footer-links a:hover { color: var(--white); }
+    .footer-copy { font-size: .8rem; }
+
+    /* ─── Cookie ─────────────────────────────────────────────────────── */
+    .cookie-banner {
+      position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%);
+      width: min(680px, calc(100vw - 2rem));
+      background: var(--dark); color: var(--white);
+      border-radius: var(--r-xl); padding: 1.25rem 1.75rem;
+      display: flex; align-items: center; justify-content: space-between; gap: 1.5rem;
+      z-index: 200; box-shadow: 0 8px 40px rgba(0,0,0,.3);
+      animation: slideUp .4s var(--ease);
+    }
+    @keyframes slideUp { from { opacity:0; transform: translateX(-50%) translateY(20px); } }
+    .cookie-banner.hidden { display: none; }
+    .cookie-banner__text { font-size: .85rem; color: rgba(255,255,255,.65); line-height: 1.5; }
+    .cookie-banner__text a { color: var(--brand-lt); text-decoration: underline; }
+    .cookie-banner__actions { display: flex; gap: .75rem; flex-shrink: 0; }
+    .btn-cookie-accept {
+      padding: .6rem 1.25rem; border-radius: .75rem;
+      background: var(--brand); color: var(--white); font-size: .82rem; font-weight: 600;
+    }
+    .btn-cookie-reject {
+      padding: .6rem 1.25rem; border-radius: .75rem;
+      border: 1px solid rgba(255,255,255,.2); color: rgba(255,255,255,.6); font-size: .82rem;
+    }
+    .btn-cookie-reject:hover { border-color: rgba(255,255,255,.5); color: var(--white); }
+
+    /* ─── Responsive ─────────────────────────────────────────────────── */
+    @media(max-width:1024px){
+      .hero { grid-template-columns: 1fr; min-height: auto; }
+      .hero__text { padding: 7rem 2rem 2rem; text-align: center; }
+      .hero__sub, .hero__actions, .hero__badge { justify-content: center; }
+      .hero__visual { padding: 0 2rem 4rem; }
+      .science-layout, .privacy-layout, .contact-layout, .research-intro { grid-template-columns: 1fr; gap: 2.5rem; }
+      .purpose-grid, .purpose-statement { grid-template-columns: 1fr; }
+      .feat--wide, .feat--med, .feat--third, .feat--half { grid-column: span 12; }
+      .faq-layout { grid-template-columns: 1fr; }
+      .faq-sidebar__sticky { position: static; }
+      .studies-grid { grid-template-columns: 1fr 1fr; }
+      .usecases-grid { grid-template-columns: 1fr; }
+    }
+    @media(max-width:640px){
+      .section { padding: 4rem 0; }
+      .studies-grid { grid-template-columns: 1fr; }
+      .cookie-banner { flex-direction: column; }
+      .footer-inner { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════ COOKIE BANNER ══════════════════════════════════ -->
+<div class="cookie-banner" id="cookieBanner">
+  <p class="cookie-banner__text">
+    We use only essential cookies to keep the site running. No tracking, no profiling — consistent with Mind Cue's privacy-first values. <a href="#faq">Learn more ↗</a>
+  </p>
+  <div class="cookie-banner__actions">
+    <button class="btn-cookie-reject" onclick="dismissCookie()">Reject all</button>
+    <button class="btn-cookie-accept" onclick="dismissCookie()">Accept essential</button>
+  </div>
+</div>
+
+<!-- ══════════════════ NAV ═══════════════════════════════════════════ -->
+<nav class="nav" id="nav">
+  <div class="container">
+    <div class="nav__inner">
+      <a href="#" class="nav__logo">
+        <img src="icon.jpg" alt="Mind Cue icon">
+        Mind Cue
+      </a>
+      <ul class="nav__links">
+        <li><a href="#features">Features</a></li>
+        <li><a href="#screens">Screenshots</a></li>
+        <li><a href="#usecases">Use Cases</a></li>
+        <li><a href="#research">Research</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <div class="nav__cta">
+        <a href="#" class="btn btn-outline" style="padding:.6rem 1.2rem;font-size:.85rem">Coming to App Store</a>
+      </div>
+      <button class="nav__hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- ══════════════════ HERO ══════════════════════════════════════════ -->
+<section class="hero">
+  <div class="hero__text">
+    <div class="hero__eyebrow"><span class="tag">Free · Privacy-first · Evidence-based</span></div>
+    <h1 class="hero__headline">
+      Your mind,<br>
+      <em>prepared</em><br>
+      for what's next
+    </h1>
+    <p class="hero__sub">
+      Mind Cue connects to your calendar and delivers science-based psychological techniques exactly before each event — without adding another layer of noise to your day.
+    </p>
+    <div class="hero__actions">
+      <a href="#" class="btn btn-primary">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="M8 12l3 3 5-5"/></svg>
+        Download on App Store
+      </a>
+      <a href="#features" class="btn btn-ghost">See how it works →</a>
+    </div>
+    <div class="hero__badge">
+      <div class="hero__badge-item"><div class="hero__badge-dot"></div> Free forever</div>
+      <div class="hero__badge-item"><div class="hero__badge-dot"></div> iOS 17+</div>
+      <div class="hero__badge-item"><div class="hero__badge-dot"></div> No account needed</div>
+    </div>
+  </div>
+
+  <div class="hero__visual">
+
+    <!-- Back phone -->
+    <div class="phone phone--sm hero__phone-back">
+      <div class="phone__notch"></div>
+      <div class="phone__screen">
+        <div class="phone__ph">
+          <img src="icon.jpg" class="phone__ph-logo" alt="">
+          <div class="phone__ph-label">screen_learn.png</div>
+          <div class="phone__ph-hint">Drop your screenshot here</div>
+        </div>
+        <img src="screenshots/screen_learn.png" class="phone__img" alt="Learn tab"
+             onerror="this.classList.add('hidden')"
+             onload="this.previousElementSibling.style.display='none'">
+      </div>
+    </div>
+
+    <!-- Front phone -->
+    <div class="phone phone--lg hero__phone-front">
+      <div class="phone__notch"></div>
+      <div class="phone__screen">
+        <div class="phone__ph">
+          <img src="icon.jpg" class="phone__ph-logo" alt="">
+          <div class="phone__ph-label">screen_home.png</div>
+          <div class="phone__ph-hint">Drop your screenshot here</div>
+        </div>
+        <img src="screenshots/screen_home.png" class="phone__img" alt="Home screen"
+             onerror="this.classList.add('hidden')"
+             onload="this.previousElementSibling.style.display='none'">
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════ SCREENSHOTS ═══════════════════════════════════ -->
+<section class="section section--sand" id="screens">
+  <div class="container">
+    <div class="section__header" style="text-align:center">
+      <span class="tag">See it in action</span>
+      <h2 class="section__title">The app, in your hands</h2>
+      <p class="section__sub" style="margin:1rem auto 0;max-width:44ch">Four views. One purpose: make each day a little more prepared.</p>
+    </div>
+
+<div class="screens-gallery">
+
+      <div class="screen-item">
+        <div class="phone phone--sm">
+          <div class="phone__notch"></div>
+          <div class="phone__screen">
+            <div class="phone__ph">
+              <img src="icon.jpg" class="phone__ph-logo" alt="">
+              <div class="phone__ph-label">screen_home.png</div>
+              <div class="phone__ph-hint">Home · Calendar view</div>
+            </div>
+            <img src="screenshots/screen_home.png" class="phone__img" alt="Home"
+                 onerror="this.classList.add('hidden')"
+                 onload="this.previousElementSibling.style.display='none'">
+          </div>
+        </div>
+        <div class="screen-label">Home</div>
+      </div>
+
+      <div class="screen-item">
+        <div class="phone phone--sm">
+          <div class="phone__notch"></div>
+          <div class="phone__screen">
+            <div class="phone__ph">
+              <img src="icon.jpg" class="phone__ph-logo" alt="">
+              <div class="phone__ph-label">screen_tip.png</div>
+              <div class="phone__ph-hint">Tip detail view</div>
+            </div>
+            <img src="screenshots/screen_tip.png" class="phone__img" alt="Tip"
+                 onerror="this.classList.add('hidden')"
+                 onload="this.previousElementSibling.style.display='none'">
+          </div>
+        </div>
+        <div class="screen-label">Technique</div>
+      </div>
+
+      <div class="screen-item">
+        <div class="phone phone--sm">
+          <div class="phone__notch"></div>
+          <div class="phone__screen">
+            <div class="phone__ph">
+              <img src="icon.jpg" class="phone__ph-logo" alt="">
+              <div class="phone__ph-label">screen_learn.png</div>
+              <div class="phone__ph-hint">Learn · Library</div>
+            </div>
+            <img src="screenshots/screen_learn.png" class="phone__img" alt="Learn"
+                 onerror="this.classList.add('hidden')"
+                 onload="this.previousElementSibling.style.display='none'">
+          </div>
+        </div>
+        <div class="screen-label">Learn</div>
+      </div>
+
+      <div class="screen-item">
+        <div class="phone phone--sm">
+          <div class="phone__notch"></div>
+          <div class="phone__screen">
+            <div class="phone__ph">
+              <img src="icon.jpg" class="phone__ph-logo" alt="">
+              <div class="phone__ph-label">screen_insights.png</div>
+              <div class="phone__ph-hint">Insights · Reports</div>
+            </div>
+            <img src="screenshots/screen_insights.png" class="phone__img" alt="Insights"
+                 onerror="this.classList.add('hidden')"
+                 onload="this.previousElementSibling.style.display='none'">
+          </div>
+        </div>
+        <div class="screen-label">Insights</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ PURPOSE (dark) ════════════════════════════════ -->
+<section class="section section--dark" id="purpose">
+  <div class="container">
+    <div class="section__header">
+      <span class="tag tag--lt">Our philosophy</span>
+      <h2 class="section__title">Not another layer of complexity.<br>A preparation system.</h2>
+      <p class="section__sub">Most wellness apps want your time, your streaks, your attention. Mind Cue wants none of that. It shows up precisely when relevant — and stays quiet the rest of the time.</p>
+    </div>
+    <div class="purpose-grid">
+      <div class="purpose-card">
+        <div class="purpose-card__num">01</div>
+        <div class="purpose-card__title">In-context, not in-demand</div>
+        <p class="purpose-card__text">Evidence shows psychological interventions are most effective when delivered in a context similar to the situation they prepare you for. A breathing technique before a stressful meeting lands differently than one learned at random.</p>
+      </div>
+      <div class="purpose-card">
+        <div class="purpose-card__num">02</div>
+        <div class="purpose-card__title">Reflection without friction</div>
+        <p class="purpose-card__text">The ABC model — Activating event, Belief, Consequence — is one of CBT's most powerful tools. Mind Cue surfaces it precisely after an event, when reflection is natural and memory is fresh.</p>
+      </div>
+      <div class="purpose-card">
+        <div class="purpose-card__num">03</div>
+        <div class="purpose-card__title">No gamification, no fatigue</div>
+        <p class="purpose-card__text">Streaks, badges and daily pressure create notification fatigue — backed by research. We don't push you. Insights emerge naturally from your calendar data. Knowledge is there when you reach for it.</p>
+      </div>
+    </div>
+    <div class="purpose-statement">
+      <h3 class="purpose-statement__quote">
+        Help people understand their <em>behaviour, thoughts</em> and psychological patterns — and be ready for each day.
+      </h3>
+      <ul class="purpose-statement__list">
+        <li>Connect your existing iOS calendar — nothing new to build</li>
+        <li>Receive a science-based technique minutes before each event type</li>
+        <li>Reflect using the structured ABC journal immediately after</li>
+        <li>Watch simple, honest insights emerge over time</li>
+        <li>Browse a deep library of techniques and articles</li>
+        <li>Everything runs locally — your data never leaves your device without consent</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ FEATURES ══════════════════════════════════════ -->
+<section class="section" id="features">
+  <div class="container">
+    <div class="section__header">
+      <span class="tag">What's inside</span>
+      <h2 class="section__title">Everything you need.<br>Nothing you don't.</h2>
+    </div>
+    <div class="features-grid">
+
+      <!-- Calendar sync — wide -->
+      <div class="feat feat--wide">
+        <div class="feat__icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C1532A" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        </div>
+        <span class="tag" style="margin-bottom:.75rem">Core</span>
+        <h3 class="feat__title">Calendar sync — seamless integration</h3>
+        <p class="feat__text">Connect your default iOS Calendar in one tap. Mind Cue reads upcoming events and automatically assigns a psychological category and relevant technique. Add events directly in the app or in any app you already use — it stays in sync.</p>
+        <div class="feat__visual" style="background:var(--sand);padding:1.5rem;display:flex;gap:.75rem;align-items:center;">
+          <div style="flex:1;display:flex;flex-direction:column;gap:.5rem;">
+            <div style="background:white;border-radius:.5rem;padding:.6rem .75rem;font-size:.78rem;border-left:3px solid #5B8DB8;box-shadow:0 2px 8px rgba(0,0,0,.06)"><strong style="display:block;font-size:.8rem">📅 Synced from iOS Calendar</strong><span style="color:var(--muted)">Events appear automatically</span></div>
+            <div style="background:white;border-radius:.5rem;padding:.6rem .75rem;font-size:.78rem;border-left:3px solid #C1532A;box-shadow:0 2px 8px rgba(0,0,0,.06)"><strong style="display:block;font-size:.8rem">🤖 Auto-classified</strong><span style="color:var(--muted)">AI or rule-based — your choice</span></div>
+            <div style="background:white;border-radius:.5rem;padding:.6rem .75rem;font-size:.78rem;border-left:3px solid #F09070;box-shadow:0 2px 8px rgba(0,0,0,.06)"><strong style="display:block;font-size:.8rem">💡 Technique delivered</strong><span style="color:var(--muted)">Before each event type</span></div>
+          </div>
+          <svg width="90" height="90" viewBox="0 0 90 90" fill="none">
+            <circle cx="45" cy="45" r="40" fill="rgba(193,83,42,.08)"/>
+            <circle cx="45" cy="45" r="28" fill="rgba(193,83,42,.12)"/>
+            <circle cx="45" cy="45" r="14" fill="#C1532A"/>
+            <path d="M38 45l5 5 9-9" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Science — medium -->
+      <div class="feat feat--med">
+        <div class="feat__icon feat__icon--pale">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F09070" stroke-width="2"><path d="M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2z"/><path d="M12 8v4l3 3"/></svg>
+        </div>
+        <span class="tag tag--lt" style="margin-bottom:.75rem">Science</span>
+        <h3 class="feat__title">Evidence-based techniques</h3>
+        <p class="feat__text">Every technique and article is drawn from peer-reviewed research — CBT, ACT, mindfulness, stress inoculation, physiological regulation. Curated by practitioners, not algorithm alone.</p>
+        <div style="display:flex;gap:.75rem;flex-wrap:wrap;margin-top:1.25rem;">
+          <span style="background:var(--sand);padding:.35rem .75rem;border-radius:2rem;font-size:.78rem;font-weight:500">CBT</span>
+          <span style="background:var(--sand);padding:.35rem .75rem;border-radius:2rem;font-size:.78rem;font-weight:500">ACT</span>
+          <span style="background:var(--sand);padding:.35rem .75rem;border-radius:2rem;font-size:.78rem;font-weight:500">Mindfulness</span>
+          <span style="background:var(--sand);padding:.35rem .75rem;border-radius:2rem;font-size:.78rem;font-weight:500">Box Breathing</span>
+          <span style="background:var(--sand);padding:.35rem .75rem;border-radius:2rem;font-size:.78rem;font-weight:500">Stress Inoculation</span>
+          <span style="background:var(--sand);padding:.35rem .75rem;border-radius:2rem;font-size:.78rem;font-weight:500">Body Scan</span>
+        </div>
+      </div>
+
+      <!-- Privacy — dark card -->
+      <div class="feat feat--third" style="background:var(--dark);border-color:transparent;color:white;">
+        <div class="feat__icon" style="background:rgba(240,144,112,.15)">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F09070" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <h3 class="feat__title">Privacy by design</h3>
+        <p class="feat__text" style="color:rgba(255,255,255,.5)">AES-256 encryption. Journal stays on-device only. iCloud Keychain sync. No data ever sold.</p>
+      </div>
+
+      <!-- Insights — third -->
+      <div class="feat feat--third">
+        <div class="feat__icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C1532A" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        </div>
+        <h3 class="feat__title">Meaningful insights</h3>
+        <p class="feat__text">Weekly and monthly reports on mood trends, stress by category, technique effectiveness — without manufactured urgency. Simple truth about your patterns.</p>
+      </div>
+
+      <!-- Library — third -->
+      <div class="feat feat--third">
+        <div class="feat__icon feat__icon--pale">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F09070" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+        </div>
+        <h3 class="feat__title">Actionable library</h3>
+        <p class="feat__text">Browse techniques and long-form articles. Add any technique directly to your calendar as a recurring practice — build mastery over time.</p>
+      </div>
+
+      <!-- AI modes — half -->
+      <div class="feat feat--half">
+        <div class="feat__icon feat__icon--slate">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1A0E08" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        </div>
+        <h3 class="feat__title">AI mode — smart without surrender</h3>
+        <p class="feat__text">Optional AI mode uses Claude by Anthropic to classify events and personalise notification copy. Opt in, opt out any time. Without AI, the app still delivers intelligent survey-personalised recommendations — built by humans who understand the research.</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1.25rem;">
+          <div class="mode-card">
+            <div class="mode-card__header"><span class="mode-card__name">AI mode</span><span class="mode-card__badge mode-card__badge--on">Optional</span></div>
+            <ul class="mode-card__list">
+              <li>Claude classifies events</li>
+              <li>Personalised notification copy</li>
+              <li>Cloud recommendations</li>
+            </ul>
+          </div>
+          <div class="mode-card">
+            <div class="mode-card__header"><span class="mode-card__name">Standard</span><span class="mode-card__badge mode-card__badge--off">Default</span></div>
+            <ul class="mode-card__list">
+              <li>On-device classification</li>
+              <li>Survey-based personalisation</li>
+              <li>Zero data leaves device</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Journal — half -->
+      <div class="feat feat--half">
+        <div class="feat__icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C1532A" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        </div>
+        <h3 class="feat__title">ABC journal — local, always</h3>
+        <p class="feat__text">After each event, reflect using the Activating Event → Belief → Consequence framework. Journal entries are encrypted and stored exclusively on your device. They never reach any server — ours or anyone else's.</p>
+        <div style="margin-top:1.5rem;padding:1rem 1.25rem;background:var(--sand);border-radius:.75rem;font-size:.85rem;line-height:1.6">
+          <strong style="display:block;margin-bottom:.35rem;font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)">Example reflection</strong>
+          <div style="color:var(--text)"><strong>A:</strong> Back-to-back meetings drained my focus<br><strong>B:</strong> "I should have prepared more"<br><strong>C:</strong> Anxious, distracted all afternoon</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ SCIENCE ════════════════════════════════════════ -->
+<section class="section section--sand" id="science">
+  <div class="container">
+    <div class="science-layout">
+      <div>
+        <span class="tag">By the numbers</span>
+        <h2 class="section__title" style="margin-top:.75rem">Built on real research</h2>
+        <p style="font-size:.95rem;color:var(--muted);line-height:1.7;margin-top:1rem;max-width:36ch;">Every technique, every insight, every recommendation traces back to peer-reviewed evidence. This is not wellness content — it is applied behavioural science.</p>
+        <div class="science-stats" style="margin-top:2.5rem;">
+          <div>
+            <div class="science-stat__num">38</div>
+            <div class="science-stat__label">Peer-reviewed research papers and meta-analyses reviewed</div>
+          </div>
+          <div class="science-divider"></div>
+          <div>
+            <div class="science-stat__num">6</div>
+            <div class="science-stat__label">Evidence-based therapeutic frameworks applied</div>
+          </div>
+          <div class="science-divider"></div>
+          <div>
+            <div class="science-stat__num">30+</div>
+            <div class="science-stat__label">Techniques and exercises curated</div>
+          </div>
+          <div class="science-divider"></div>
+          <div>
+            <div class="science-stat__num">0</div>
+            <div class="science-stat__label">Gamification mechanics. None. On purpose.</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="articles-list">
+          <div class="article-item">
+            <div class="article-item__year">2025</div>
+            <div>
+              <div class="article-item__title">Systematic review and meta-analysis of educational approaches to reduce cognitive biases among students</div>
+              <div class="article-item__authors">Swaryandini et al.</div>
+              <div class="article-item__journal">Nature Human Behaviour — 54 RCTs, n=10,941 on cognitive debiasing</div>
+            </div>
+          </div>
+          <div class="article-item">
+            <div class="article-item__year">2024</div>
+            <div>
+              <div class="article-item__title">Implementation of mindfulness-based emotion regulation strategies: A systematic review and meta-analysis</div>
+              <div class="article-item__authors">Raugh et al.</div>
+              <div class="article-item__journal">Affective Science — 110 studies, n=8,105 on emotion regulation</div>
+            </div>
+          </div>
+          <div class="article-item">
+            <div class="article-item__year">2023</div>
+            <div>
+              <div class="article-item__title">Brief structured respiration practices enhance mood and reduce physiological arousal</div>
+              <div class="article-item__authors">Balban et al.</div>
+              <div class="article-item__journal">Cell Reports Medicine — basis for physiological sigh technique</div>
+            </div>
+          </div>
+          <div class="article-item">
+            <div class="article-item__year">2023</div>
+            <div>
+              <div class="article-item__title">Effect of breathwork on stress and mental health: A meta-analysis of randomised-controlled trials</div>
+              <div class="article-item__authors">Fincham et al.</div>
+              <div class="article-item__journal">Scientific Reports — 12 RCTs on breathwork and mental health</div>
+            </div>
+          </div>
+          <div class="article-item">
+            <div class="article-item__year">2012</div>
+            <div>
+              <div class="article-item__title">The Efficacy of Cognitive Behavioral Therapy: A Review of Meta-analyses</div>
+              <div class="article-item__authors">Hofmann, Asnaani, Vonk, Sawyer, Fang</div>
+              <div class="article-item__journal">Cognitive Therapy and Research — 269 meta-analyses reviewed</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ PRIVACY ════════════════════════════════════════ -->
+<section class="section" id="privacy">
+  <div class="container">
+    <div class="privacy-layout">
+      <div>
+        <span class="tag">Privacy-first</span>
+        <h2 class="section__title" style="margin-top:.75rem">Your mind's data stays<br>where it belongs</h2>
+        <p style="font-size:.95rem;color:var(--muted);line-height:1.7;margin-top:1rem;">Psychological data is among the most sensitive that exists. We engineered every layer of Mind Cue around that fact — not as a feature, as a foundation.</p>
+        <div style="margin-top:2.5rem;padding:1.5rem;border-radius:var(--r-lg);background:linear-gradient(135deg,var(--dark),#3D1A0C);color:white;">
+          <div style="font-size:.78rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--brand-lt);margin-bottom:.75rem">Data architecture</div>
+          <div style="font-size:.88rem;line-height:1.8;color:rgba(255,255,255,.7)">
+            <div style="display:flex;justify-content:space-between;padding:.3rem 0;border-bottom:1px solid rgba(255,255,255,.08)"><span>Journal entries (ABC)</span><span style="color:#F09070;font-weight:500">Device only, encrypted</span></div>
+            <div style="display:flex;justify-content:space-between;padding:.3rem 0;border-bottom:1px solid rgba(255,255,255,.08)"><span>Survey answers</span><span style="color:#F09070;font-weight:500">AES-256 in iCloud</span></div>
+            <div style="display:flex;justify-content:space-between;padding:.3rem 0;border-bottom:1px solid rgba(255,255,255,.08)"><span>Event titles</span><span style="color:#F09070;font-weight:500">Encrypted in Firestore</span></div>
+            <div style="display:flex;justify-content:space-between;padding:.3rem 0;border-bottom:1px solid rgba(255,255,255,.08)"><span>Mood check-ins</span><span style="color:#F09070;font-weight:500">Encrypted in Firestore</span></div>
+            <div style="display:flex;justify-content:space-between;padding:.3rem 0"><span>Participant names</span><span style="color:#F09070;font-weight:500">Never stored or sent</span></div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="privacy-cards">
+          <div class="privacy-card">
+            <div class="privacy-card__icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C1532A" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+            <div>
+              <div class="privacy-card__title">AES-256-GCM encryption</div>
+              <p class="privacy-card__text">All sensitive fields — event titles, mood check-ins, survey answers — encrypted before leaving your device. The key lives in your iCloud Keychain, end-to-end encrypted by Apple.</p>
+            </div>
+          </div>
+          <div class="privacy-card">
+            <div class="privacy-card__icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C1532A" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+            <div>
+              <div class="privacy-card__title">Journal never leaves your device</div>
+              <p class="privacy-card__text">ABC journal entries are stored exclusively in Apple SwiftData on your iPhone. There is no server destination, no backup path — no way for anyone, including us, to read them.</p>
+            </div>
+          </div>
+          <div class="privacy-card">
+            <div class="privacy-card__icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C1532A" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg></div>
+            <div>
+              <div class="privacy-card__title">Anonymity by default</div>
+              <p class="privacy-card__text">You can use Mind Cue without creating an account. Sign-in is optional and required only for cross-device sync. No real name needed at any point.</p>
+            </div>
+          </div>
+          <div class="privacy-card">
+            <div class="privacy-card__icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C1532A" stroke-width="2"><polyline points="22 12 16 12 13 21 7 3 4 12 2 12"/></svg></div>
+            <div>
+              <div class="privacy-card__title">AI data minimisation</div>
+              <p class="privacy-card__text">When AI mode is on, only category labels and participant counts are forwarded — never names, never full descriptions, never journal content. Anthropic does not train on API data.</p>
+            </div>
+          </div>
+          <div class="privacy-card">
+            <div class="privacy-card__icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C1532A" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div>
+            <div>
+              <div class="privacy-card__title">Full export &amp; deletion</div>
+              <p class="privacy-card__text">Download all your data as JSON or delete your account — all Firestore collections purged server-side within seconds. You are always in control.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ USE CASES ══════════════════════════════════════ -->
+<section class="section section--sand" id="usecases">
+  <div class="container">
+    <div class="section__header">
+      <span class="tag">Real scenarios</span>
+      <h2 class="section__title">Your day, supported</h2>
+      <p class="section__sub">Four moments where preparation changes the outcome. Each one familiar. Each one better with thirty seconds of science.</p>
+    </div>
+    <div class="usecases-grid">
+
+      <div class="usecase-card">
+        <div class="usecase-card__header">
+          <div><div class="usecase-card__scenario">Scenario 01</div><div class="usecase-card__title">Client meeting at 10:00</div></div>
+          <div class="usecase-card__emoji">🤝</div>
+        </div>
+        <div class="usecase-card__body">
+          <p class="usecase-card__narrative">It's 09:45. You've been in back-to-back calls since 8am. A major client presents a new brief in fifteen minutes and your mind is still replaying the last meeting's tension. You feel rushed and not quite present.</p>
+          <div class="usecase-card__solution"><strong>Mind Cue:</strong> A notification at 09:47 — "Before your client meeting: <em>Physiological sigh</em> — two quick inhales, one long exhale. Resets your nervous system in 30 seconds." One tap, one technique. You arrive regulated, attentive, ready to listen.</div>
+        </div>
+        <div class="usecase-card__visual" style="background:linear-gradient(135deg,rgba(91,141,184,.08),rgba(193,83,42,.06));display:flex;align-items:center;justify-content:center;">
+          <svg width="280" height="160" viewBox="0 0 280 160">
+            <rect x="30" y="14" width="220" height="88" rx="13" fill="white" stroke="#F0E6DC"/>
+            <rect x="30" y="14" width="4" height="88" rx="2" fill="#5B8DB8"/>
+            <text x="44" y="36" font-family="Inter" font-size="10" fill="#7A6055">09:47 · Client Review · 1 hr</text>
+            <text x="44" y="55" font-family="Inter" font-size="13" font-weight="700" fill="#1A0E08">Physiological Sigh</text>
+            <text x="44" y="72" font-family="Inter" font-size="10" fill="#7A6055">Resets your nervous system before</text>
+            <text x="44" y="86" font-family="Inter" font-size="10" fill="#7A6055">the meeting begins. 30 seconds.</text>
+            <text x="44" y="128" font-family="Inter" font-size="10" fill="#7A6055">13 min before event</text>
+            <circle cx="248" cy="57" r="14" fill="rgba(193,83,42,.1)"/>
+            <circle cx="248" cy="57" r="5" fill="#C1532A"/>
+          </svg>
+        </div>
+      </div>
+
+      <div class="usecase-card">
+        <div class="usecase-card__header">
+          <div><div class="usecase-card__scenario">Scenario 02</div><div class="usecase-card__title">Team meeting at 14:00</div></div>
+          <div class="usecase-card__emoji">👥</div>
+        </div>
+        <div class="usecase-card__body">
+          <p class="usecase-card__narrative">Last week someone challenged your idea publicly and you're still carrying the sting. You want to contribute openly but notice yourself already preparing defensive responses instead of genuinely listening.</p>
+          <div class="usecase-card__solution"><strong>Mind Cue:</strong> "Before your team meeting: <em>Perspective check</em> — name one assumption you're bringing in. Is it fact or interpretation?" The ABC framing helps you spot the belief before it shapes your behaviour. You enter curious, not guarded.</div>
+        </div>
+        <div class="usecase-card__visual" style="background:linear-gradient(135deg,rgba(240,144,112,.10),rgba(217,105,74,.06));display:flex;align-items:center;justify-content:center;">
+          <svg width="280" height="160" viewBox="0 0 280 160">
+            <rect x="30" y="14" width="220" height="96" rx="13" fill="white" stroke="#F0E6DC"/>
+            <rect x="30" y="14" width="4" height="96" rx="2" fill="#D9694A"/>
+            <text x="44" y="36" font-family="Inter" font-size="10" fill="#7A6055">13:42 · Team Meeting · 45 min</text>
+            <text x="44" y="55" font-family="Inter" font-size="13" font-weight="700" fill="#1A0E08">Perspective Check</text>
+            <text x="44" y="72" font-family="Inter" font-size="10" fill="#7A6055">A — You expect criticism</text>
+            <text x="44" y="86" font-family="Inter" font-size="10" fill="#7A6055">B — "I'll be judged harshly"</text>
+            <text x="44" y="100" font-family="Inter" font-size="10" fill="#7A6055">Is that fact or interpretation?</text>
+            <text x="44" y="134" font-family="Inter" font-size="10" fill="#7A6055">18 min before event</text>
+          </svg>
+        </div>
+      </div>
+
+      <div class="usecase-card">
+        <div class="usecase-card__header">
+          <div><div class="usecase-card__scenario">Scenario 03</div><div class="usecase-card__title">Focus block at 09:00</div></div>
+          <div class="usecase-card__emoji">🧠</div>
+        </div>
+        <div class="usecase-card__body">
+          <p class="usecase-card__narrative">You've blocked two hours for deep work. But you checked Slack at 8:55 and three threads are running in your head. The block starts in five minutes and you're already fragmented, attention flickering.</p>
+          <div class="usecase-card__solution"><strong>Mind Cue:</strong> "Before your focus block: <em>Attention anchor</em> — write one sentence: 'The only thing that matters in these two hours is…'. Primes your prefrontal cortex and reduces task-switching cost." You close Slack. You write the sentence. You begin.</div>
+        </div>
+        <div class="usecase-card__visual" style="background:linear-gradient(135deg,rgba(196,121,58,.08),rgba(240,144,112,.06));display:flex;align-items:center;justify-content:center;">
+          <svg width="280" height="160" viewBox="0 0 280 160">
+            <rect x="30" y="14" width="220" height="96" rx="13" fill="white" stroke="#F0E6DC"/>
+            <rect x="30" y="14" width="4" height="96" rx="2" fill="#C4793A"/>
+            <text x="44" y="36" font-family="Inter" font-size="10" fill="#7A6055">08:55 · Deep Focus · 2 hr</text>
+            <text x="44" y="55" font-family="Inter" font-size="13" font-weight="700" fill="#1A0E08">Attention Anchor</text>
+            <rect x="44" y="63" width="176" height="32" rx="7" fill="rgba(193,83,42,.06)" stroke="rgba(193,83,42,.2)"/>
+            <text x="54" y="79" font-family="Inter" font-size="9" fill="#7A6055">Today, the only thing that matters is…</text>
+            <text x="54" y="91" font-family="Inter" font-size="9" font-weight="600" fill="#1A0E08">finishing the strategy deck</text>
+            <text x="44" y="134" font-family="Inter" font-size="10" fill="#7A6055">5 min before event</text>
+          </svg>
+        </div>
+      </div>
+
+      <div class="usecase-card">
+        <div class="usecase-card__header">
+          <div><div class="usecase-card__scenario">Scenario 04</div><div class="usecase-card__title">Decision session at 16:00</div></div>
+          <div class="usecase-card__emoji">⚖️</div>
+        </div>
+        <div class="usecase-card__body">
+          <p class="usecase-card__narrative">A significant hiring decision. It felt sharp this morning. After six hours of meetings, your mental energy is low and you notice yourself leaning toward the easier option, not necessarily the right one. Decision fatigue is real and you're in it.</p>
+          <div class="usecase-card__solution"><strong>Mind Cue:</strong> "Before your decision session: <em>Cognitive load reset</em> — 5-min body scan to discharge accumulated stress. Research shows a short reset can recover executive function significantly." You do the scan. The options feel clearer.</div>
+        </div>
+        <div class="usecase-card__visual" style="background:linear-gradient(135deg,rgba(30,12,6,.04),rgba(240,144,112,.08));display:flex;align-items:center;justify-content:center;">
+          <svg width="280" height="160" viewBox="0 0 280 160">
+            <rect x="30" y="14" width="220" height="96" rx="13" fill="white" stroke="#F0E6DC"/>
+            <rect x="30" y="14" width="4" height="96" rx="2" fill="#1A0E08" opacity=".55"/>
+            <text x="44" y="36" font-family="Inter" font-size="10" fill="#7A6055">15:50 · Decision · 30 min</text>
+            <text x="44" y="55" font-family="Inter" font-size="13" font-weight="700" fill="#1A0E08">Cognitive Load Reset</text>
+            <text x="44" y="72" font-family="Inter" font-size="10" fill="#7A6055">Body scan · 5 minutes</text>
+            <rect x="44" y="80" width="180" height="7" rx="3.5" fill="#F0E6DC"/>
+            <rect x="44" y="80" width="90" height="7" rx="3.5" fill="#F09070"/>
+            <text x="44" y="104" font-family="Inter" font-size="9" fill="#7A6055">Executive function restored</text>
+            <text x="44" y="134" font-family="Inter" font-size="10" fill="#7A6055">10 min before event</text>
+          </svg>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ RESEARCH ═══════════════════════════════════════ -->
+<section class="section" id="research">
+  <div class="container">
+    <div class="research-intro">
+      <div>
+        <span class="tag">Foundation</span>
+        <h2 class="section__title" style="margin-top:.75rem">What we built on</h2>
+        <p style="font-size:.95rem;color:var(--muted);line-height:1.7;margin-top:1rem;">Mind Cue is the product of curating decades of behavioural science into something practical. These are the domains — and the studies — that shaped every design decision.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.25rem;">
+          <span class="tag">CBT</span>
+          <span class="tag tag--lt">Stress Regulation</span>
+          <span class="tag">Workplace Mindfulness</span>
+          <span class="tag tag--lt">Decision Science</span>
+          <span class="tag">Emotion Regulation</span>
+          <span class="tag tag--lt">Cognitive Debiasing</span>
+          <span class="tag">Attention Research</span>
+          <span class="tag tag--lt">Timing of Interventions</span>
+        </div>
+      </div>
+      <div style="padding:2rem;background:var(--dark);border-radius:var(--r-xl);color:white;">
+        <div style="font-size:.78rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--brand-lt);margin-bottom:1rem">Core frameworks</div>
+        <div style="display:flex;flex-direction:column;gap:1rem;">
+          <div style="display:flex;gap:.75rem;align-items:flex-start;">
+            <span style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;color:var(--brand-lt);line-height:1">CBT</span>
+            <div style="font-size:.85rem;color:rgba(255,255,255,.55);line-height:1.5">Cognitive Behavioural Therapy — foundation of the ABC journal and belief-challenging structure</div>
+          </div>
+          <div style="display:flex;gap:.75rem;align-items:flex-start;">
+            <span style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;color:var(--brand-lt);line-height:1">ACT</span>
+            <div style="font-size:.85rem;color:rgba(255,255,255,.55);line-height:1.5">Acceptance and Commitment Therapy — psychological flexibility and value-based action</div>
+          </div>
+          <div style="display:flex;gap:.75rem;align-items:flex-start;">
+            <span style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;color:var(--brand-lt);line-height:1">SIT</span>
+            <div style="font-size:.85rem;color:rgba(255,255,255,.55);line-height:1.5">Stress Inoculation Training — preparing for stressful events through graduated exposure and coping rehearsal</div>
+          </div>
+          <div style="display:flex;gap:.75rem;align-items:flex-start;">
+            <span style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;color:var(--brand-lt);line-height:1">MBSR</span>
+            <div style="font-size:.85rem;color:rgba(255,255,255,.55);line-height:1.5">Mindfulness-Based Stress Reduction — body scan, breathing and present-moment awareness</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="studies-grid">
+      <div class="study-card">
+        <div class="study-card__domain">Respiration &amp; Arousal</div>
+        <div class="study-card__title">Brief structured respiration practices enhance mood and reduce physiological arousal</div>
+        <div class="study-card__meta">Balban et al. · 2023 · Cell Reports Medicine</div>
+        <div class="study-card__finding">Cyclic sighing produced significantly greater mood improvement (p &lt; 0.05) and respiratory rate reduction versus mindfulness meditation in an RCT with 108 participants.</div>
+      </div>
+      <div class="study-card">
+        <div class="study-card__domain">Workplace Mindfulness</div>
+        <div class="study-card__title">Benefits of mindfulness at work: emotion regulation, exhaustion, and job satisfaction</div>
+        <div class="study-card__meta">Hülsheger et al. · 2013 · Journal of Applied Psychology</div>
+        <div class="study-card__finding">Brief mindfulness exercises between demanding tasks reduced emotional exhaustion and improved job satisfaction.</div>
+      </div>
+      <div class="study-card">
+        <div class="study-card__domain">CBT Effectiveness</div>
+        <div class="study-card__title">The Efficacy of Cognitive Behavioral Therapy: A Review of Meta-analyses</div>
+        <div class="study-card__meta">Hofmann et al. · 2012 · Cognitive Therapy and Research</div>
+        <div class="study-card__finding">CBT is highly effective across anxiety, depression and stress — with strong evidence across 269 meta-analytic studies.</div>
+      </div>
+      <div class="study-card">
+        <div class="study-card__domain">Breathwork Meta-Analysis</div>
+        <div class="study-card__title">Effect of breathwork on stress and mental health: A meta-analysis of randomised-controlled trials</div>
+        <div class="study-card__meta">Fincham et al. · 2023 · Scientific Reports</div>
+        <div class="study-card__finding">Breathwork significantly reduced stress (12 RCTs, n=785, g=−0.35), anxiety (k=20, g=−0.32), and depression (k=18, g=−0.40) versus controls.</div>
+      </div>
+      <div class="study-card">
+        <div class="study-card__domain">Cognitive Fatigue</div>
+        <div class="study-card__title">Mental fatigue and the control of cognitive processes</div>
+        <div class="study-card__meta">Van der Linden et al. · 2003 · Acta Psychologica</div>
+        <div class="study-card__finding">Mental fatigue significantly impairs executive function and planning — validating that end-of-day decision quality decreases measurably.</div>
+      </div>
+      <div class="study-card">
+        <div class="study-card__domain">Context Learning</div>
+        <div class="study-card__title">Context-dependent memory in two natural environments: on land and underwater</div>
+        <div class="study-card__meta">Godden &amp; Baddeley · 1975 · British Journal of Psychology</div>
+        <div class="study-card__finding">Information is recalled most effectively in the same context in which it was learned — a classic finding supporting in-context intervention design.</div>
+      </div>
+      <div class="study-card">
+        <div class="study-card__domain">Emotion Regulation</div>
+        <div class="study-card__title">Emotion regulation in current and remitted depression: A systematic review and meta-analysis</div>
+        <div class="study-card__meta">Visted et al. · 2018 · Frontiers in Psychology</div>
+        <div class="study-card__finding">Across 72 studies, individuals with depression used significantly less reappraisal (g=−0.7) and more rumination (g=2.1) — confirming emotion regulation as a core resilience skill.</div>
+      </div>
+      <div class="study-card">
+        <div class="study-card__domain">Cognitive Debiasing</div>
+        <div class="study-card__title">Systematic review and meta-analysis of educational approaches to reduce cognitive biases among students</div>
+        <div class="study-card__meta">Swaryandini et al. · 2025 · Nature Human Behaviour</div>
+        <div class="study-card__finding">Across 54 RCTs (n=10,941), educational interventions produced a significant reduction in bias likelihood (g=0.26) — structured prompts at the point of decision are most effective.</div>
+      </div>
+      <div class="study-card">
+        <div class="study-card__domain">App-Based Mindfulness</div>
+        <div class="study-card__title">Mobile mindfulness meditation: A randomised controlled trial of the effect of two popular apps on mental health</div>
+        <div class="study-card__meta">Flett et al. · 2018 · Mindfulness</div>
+        <div class="study-card__finding">App-based mindfulness improved depressive symptoms and mindfulness in 208 students — but usage dropped below 20% without structured triggers, validating calendar-linked delivery.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ FAQ ════════════════════════════════════════════ -->
+<section class="section section--sand" id="faq">
+  <div class="container">
+    <div class="faq-layout">
+      <div>
+        <div class="faq-sidebar__sticky">
+          <span class="tag">Transparency</span>
+          <h2 class="faq-sidebar__title" style="margin-top:.75rem">How everything works</h2>
+          <p class="faq-sidebar__text">Every algorithm, scoring system and data decision is documented here. No black boxes — you should understand exactly what happens with your data and how recommendations are generated.</p>
+          <div style="margin-top:2rem;padding:1.25rem;background:white;border-radius:var(--r-md);border:1px solid var(--border);">
+            <div style="font-size:.78rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.75rem">Quick facts</div>
+            <div style="font-size:.85rem;color:var(--muted);display:flex;flex-direction:column;gap:.5rem;">
+              <div>✓ No proprietary AI black boxes</div>
+              <div>✓ Survey data processed on-device</div>
+              <div>✓ All scoring rules are deterministic</div>
+              <div>✓ AI mode clearly labelled throughout</div>
+              <div>✓ Source code auditable on request</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion" id="accordion">
+        <div class="accordion-item">
+          <button class="accordion-trigger" aria-expanded="false">
+            <span class="accordion-q">How does event classification work?</span>
+            <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="accordion-body"><div class="accordion-body-inner">
+            <p>Events are classified into one of 8 categories: <strong>Meeting, Communication, Focus, Decision, Learning, Administrative, Personal, and Wellbeing</strong>.</p>
+            <p><strong>Standard mode:</strong> A rule-based engine matches event title keywords against category patterns. Words like "standup", "sync", "review" match Communication; "write", "code", "design" match Focus; "decide", "vote" match Decision. Runs entirely on-device.</p>
+            <p><strong>AI mode:</strong> The event title (truncated), duration, and participant count string are sent to a Claude cloud function which returns a category and confidence score. This personalises notification copy but never processes descriptions or participant names.</p>
+          </div></div>
+        </div>
+
+        <div class="accordion-item">
+          <button class="accordion-trigger" aria-expanded="false">
+            <span class="accordion-q">How are techniques matched to events?</span>
+            <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="accordion-body"><div class="accordion-body-inner">
+            <p>Each technique has a set of event categories it is relevant to, plus a type tag (breathing, mindfulness, cognitive, physical, journaling, or planning).</p>
+            <p><strong>Standard mode:</strong> Techniques are filtered by matching event category, then re-ranked by user survey preferences (learning style, prior experience). Back-to-back events prioritise quick (≤5 min) techniques.</p>
+            <p><strong>AI mode:</strong> A cloud function receives the event category, title, whether it is back-to-back, and your goal and trigger labels (from survey payload — never from Firestore). Claude selects a primary technique with a personalised reason and up to two secondary alternatives.</p>
+            <p>The notification is delivered 15 minutes before the event, or 30 minutes for longer (&gt;1 hour) events.</p>
+          </div></div>
+        </div>
+
+        <div class="accordion-item">
+          <button class="accordion-trigger" aria-expanded="false">
+            <span class="accordion-q">How does the survey personalisation scoring work?</span>
+            <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="accordion-body"><div class="accordion-body-inner">
+            <p>The <strong>SurveyPersonalisation engine</strong> scores every bundled technique against your survey answers using a purely additive algorithm:</p>
+            <table class="algo-table">
+              <tr><th>Signal</th><th>Points</th><th>How</th></tr>
+              <tr><td>Primary goal match</td><td>+3</td><td>Technique tagged for your goal (e.g. reduce_stress)</td></tr>
+              <tr><td>Stress trigger match</td><td>+4 total</td><td>+2 per matching trigger, capped at 2 triggers</td></tr>
+              <tr><td>Learning preference</td><td>+2</td><td>Technique type matches preferred style (e.g. breathing)</td></tr>
+              <tr><td>Prior experience</td><td>+1</td><td>Beginner-appropriate techniques scored up for new users</td></tr>
+              <tr><td>Work context</td><td>+1</td><td>Remote workers score higher on async/focus techniques</td></tr>
+            </table>
+            <p style="margin-top:.75rem">Maximum score ≈ 11. Techniques sorted descending, sliced to limit (default 6). Equal-score ties broken by duration — shorter first for busy-day users.</p>
+          </div></div>
+        </div>
+
+        <div class="accordion-item">
+          <button class="accordion-trigger" aria-expanded="false">
+            <span class="accordion-q">How are weekly and monthly insights calculated?</span>
+            <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="accordion-body"><div class="accordion-body-inner">
+            <p><strong>Average mood:</strong> Mean of all check-in ratings (1–5) in the selected period.</p>
+            <p><strong>Stress by category:</strong> For each event category, average the stress rating from post-event check-ins. Highest average is flagged "most stressful category."</p>
+            <p><strong>Technique effectiveness:</strong> For each technique, count helpful marks vs. total uses. helpfulRate = helpfulCount / timesUsed. Minimum 3 uses before appearing in rankings.</p>
+            <p><strong>Mood trend:</strong> Linear regression across the period. "Improving", "declining", or "stable" based on slope (&gt;0.2/day = improving, &lt;−0.2 = declining).</p>
+            <p><strong>Mood heatmap:</strong> Events grouped by day-of-week and time slot (morning / afternoon / evening). Each cell shows average mood for check-ins in that slot.</p>
+          </div></div>
+        </div>
+
+        <div class="accordion-item">
+          <button class="accordion-trigger" aria-expanded="false">
+            <span class="accordion-q">How does the Daily Discovery rotation work?</span>
+            <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="accordion-body"><div class="accordion-body-inner">
+            <p><strong>Firestore path:</strong> <code>content/dailyDiscoveries/dailyDiscoveries/{YYYY-MM-DD}</code>. If a curated document exists for today, it is shown regardless of personalisation.</p>
+            <p><strong>Local fallback:</strong> Articles marked <code>eligibleForDailyDiscovery = true</code> are indexed by <code>dayOfYear % articles.count</code> — a deterministic, non-repeating rotation cycling the full library over the year.</p>
+            <p><strong>Survey personalisation:</strong> If you have survey data, the scoring engine ranks eligible articles and picks the highest-scoring one appropriate for today's slot, rather than purely sequential rotation.</p>
+          </div></div>
+        </div>
+
+        <div class="accordion-item">
+          <button class="accordion-trigger" aria-expanded="false">
+            <span class="accordion-q">What data is sent when AI mode is on?</span>
+            <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="accordion-body"><div class="accordion-body-inner">
+            <p><strong>Event classification:</strong> Event title (≤150 chars), duration in minutes, participant count as a string (e.g. "3 participants") — never names, never descriptions.</p>
+            <p><strong>Tip selection:</strong> Event title, category, whether back-to-back, your primary goal label (e.g. "reduce_stress"), and stress trigger labels. No free-text.</p>
+            <p><strong>Recommendations:</strong> Survey category labels only — primaryGoal, stressTriggers, learningPreference, workContext. These are passed in the function payload from your device. Survey data in Firestore is encrypted and the function has no decryption key — it never reads it.</p>
+            <p>Anthropic does not train on API data. See <a href="https://www.anthropic.com/privacy" style="color:var(--brand)">anthropic.com/privacy</a> for full details.</p>
+          </div></div>
+        </div>
+
+        <div class="accordion-item">
+          <button class="accordion-trigger" aria-expanded="false">
+            <span class="accordion-q">What is the ABC journal and how is it stored?</span>
+            <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="accordion-body"><div class="accordion-body-inner">
+            <p>Based on Aaron Beck's cognitive model and Albert Ellis's REBT. After each event you record:</p>
+            <p><strong>A — Activating Event:</strong> What specifically happened? (facts only)<br>
+            <strong>B — Belief:</strong> What did you tell yourself in that moment?<br>
+            <strong>C — Consequence:</strong> What did you feel and do as a result?</p>
+            <p>An optional fourth field records an <strong>alternative thought</strong> — a more balanced interpretation.</p>
+            <p><strong>Storage:</strong> Entries are stored exclusively in Apple SwiftData on your iPhone, encrypted with AES-256-GCM. They are never synced to Firestore, never included in any API call, never accessible to anyone other than you on the physical device.</p>
+          </div></div>
+        </div>
+
+        <div class="accordion-item">
+          <button class="accordion-trigger" aria-expanded="false">
+            <span class="accordion-q">How does encryption work across devices?</span>
+            <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="accordion-body"><div class="accordion-body-inner">
+            <p>Mind Cue uses <strong>AES-256-GCM</strong> (authenticated encryption — any tampering with ciphertext is detectable). A 256-bit symmetric key is generated on first launch and stored in your <strong>iCloud Keychain</strong> with <code>kSecAttrSynchronizable: true</code>. This means the key is:</p>
+            <p>· End-to-end encrypted by Apple before leaving your device<br>
+            · Automatically synced to all your Apple devices via iCloud Keychain<br>
+            · Restored automatically on reinstall if iCloud is signed in<br>
+            · Never visible to Anthropic, Firebase, or Mind Cue</p>
+            <p>Encrypted strings use the <code>"enc:"</code> prefix followed by base64-encoded sealed box data (nonce + ciphertext + tag). Plain strings without the prefix are returned as-is for backward compatibility.</p>
+            <p>Journal entries do not sync across devices by design — privacy over convenience for the most sensitive data.</p>
+          </div></div>
+        </div>
+
+        <div class="accordion-item">
+          <button class="accordion-trigger" aria-expanded="false">
+            <span class="accordion-q">What research has been reviewed?</span>
+            <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="accordion-body"><div class="accordion-body-inner">
+            <p>Every technique, article, and recommendation in Mind Cue traces back to peer-reviewed research. Below is the full list of studies reviewed, formatted in APA 7th edition style. This list is updated as new evidence is incorporated.</p>
+            <div style="font-size:.82rem;line-height:1.8;color:var(--text);margin-top:1rem;">
+              <p style="padding-left:2em;text-indent:-2em;margin-bottom:.5rem;">Acciarini, C., Brunetta, F., &amp; Bonfiglioli, R. (2020). Cognitive biases and decision-making strategies in times of change: A systematic literature review. <em>Management Decision</em>, <em>59</em>(3), 638–652.</p>
+              <p style="padding-left:2em;text-indent:-2em;margin-bottom:.5rem;">Balban, M. Y., Neri, E., Kogon, M. M., Weed, L., Nourber, B., Jo, B., Holl, G., Zeitzer, J. M., Spiegel, D., &amp; Huberman, A. D. (2023). Brief structured respiration practices enhance mood and reduce physiological arousal. <em>Cell Reports Medicine</em>, <em>4</em>(1), 100895.</p>
+              <p style="padding-left:2em;text-indent:-2em;margin-bottom:.5rem;">Bentley, T. G. K., D'Andrea-Penna, G., Rakic, M., Arce, N., LaFaille, M., Berman, R., Cooley, K., &amp; Sprimont, P. (2023). Breathing practices for stress and anxiety reduction: Conceptual framework of implementation guidelines based on a systematic review of the published literature. <em>Brain Sciences</em>, <em>13</em>(12), 1612.</p>
+              <p style="padding-left:2em;text-indent:-2em;margin-bottom:.5rem;">Birdee, G. S., Cai, H., Bauer, B. A., Sohl, S. J., Mathieu-Bolh, N., &amp; Gould, M. (2023). A randomized controlled trial of a breathing intervention to promote slow breathing adherence and assess the impact on anxiety symptoms. <em>Complementary Therapies in Medicine</em>, <em>75</em>, 102959.</p>
+              <p style="padding-left:2em;text-indent:-2em;margin-bottom:.5rem;">Blumenthal-Barby, J. S., &amp; Krieger, H. (2015). Cognitive biases and heuristics in medical decision making: A critical review using a systematic search strategy. <em>Medical Decision Making</em>, <em>35</em>(4), 539–557.</p>
+              <p style="padding-left:2em;text-indent:-2em;margin-bottom:.5rem;">Chen, B., Yang, T., Xiao, L., Xu, C., &amp; Zhu, C. (2023). Effects of mobile mindfulness meditation on the mental health of university students: Systematic review and meta-analysis. <em>Journal of Medical Internet Research</em>, <em>25</em>, e39128.</p>
+              <p style="padding-left:2em;text-indent:-2em;margin-bottom:.5rem;">Daros, A. R., Daniel, K. E., Engel, R. A., &amp; Ehrenreich-May, J. (2021). A meta-analysis of emotional regulation outcomes in psychological interventions for youth with depression and anxiety. <em>Nature Human Behaviour</em>, <em>5</em>(10), 1443–1457.</p>
+              <p style="padding-left:2em;text-indent:-2em;margin-bottom:.5rem;">Demir, S., &amp; Ercan, F. (2022). The effectiveness of cognitive behavioral therapy-based group counseling on depressive symptomatology, anxiety levels, automatic thoughts, and coping ways: A randomized controlled trial. <em>Perspectives in Psychiatric Care</em>, <em>58</em>(4), 2478–2487.</p>
+              <p style="padding-left:2em;text-indent:-2em;margin-bottom:.5rem;">Economides, M., Martman, J., Saunders, M. J., &amp; Cavanagh, K. (2018). Improvements in stress, affect, and irritability following brief use of a mindfulness-based smartphone app: A randomized controlled trial. <em>Mindfulness</em>, <em>9</em>(5), 1584–1593.</p>
+              <p style="padding-left:2em;text-indent:-2em;margin-bottom:.5rem;">Ferreira, S., Rodrigues, M. A., Mateus, C., Rodrigues, P. P., &amp; Rocha, N. B. (2025). Interventions based on biofeedback systems to improve workers' psychological well-being, mental health, and safety: Systematic literature review. <em>Journal of Medical Internet Research</em>, <em>27</em>(1), e70134.</p>
+              <p style="padding-left:2em;text-indent:-2em;margin-bottom:.5rem;">Fincham, G. W., Strauss, C., Montero-Marin, J., &amp; Cavanagh, K. (2023). Effect of breathwork on stress and mental health: A meta-analysis of randomised-controlled trials. <em>Scientific Reports</em>, <em>13</em>, 432.</p>
+              <p style="padding-left:2em;text-indent:-2em;margin-bottom:.5rem;">Flett, J. A. M., Hayne, H., Riordan, B. C., Thompson, L. M., &amp; Conner, T. S. (2018). Mobile mindfulness meditation: A randomised controlled trial of the effect of two popular apps on mental health. <em>Mindfulness</em>, <em>10</em>(5), 863–876.</p>
+              <p style="padding-left:2em;text-indent:-2em;margin-bottom:.5rem;">Fuhrmann, L. M., Ebert, D. D., &amp; Harrer, M. (2025). Evaluating a brief smartphone-based stress management intervention with heart rate biofeedback from built-in sensors in a three arm randomized controlled trial. <em>Scientific Reports</em>, <em>15</em>, 21472.</p>
+              <p style="padding-left:2em;text-indent:-2em;margin-bottom:.5rem;">Godden, D. R., &amp; Baddeley, A. D. (1975). Context-dependent memory in two natural environments: On land and underwater. <em>British Journal of Psychology</em>, <em>66</em>(3), 325–331.</p>
+              <p style="padding-left:2em;text-indent:-2em;margin-bottom:.5rem;">Goldberg, S. B., Imhoff-Smith, T., Bolt, D. M., Wilson-Mendenhall, C. D., Dahl, C. J., Davidson, R. J., &amp; Rosenkranz, M. A. (2020). Testing the efficacy of a multicomponent, self-guided, smartphone-based meditation app: Three-armed randomized controlled trial. <em>JMIR Mental Health</em>, <em>7</em>(11), e23825.</p>
+              <p style="padding-left:2em;text-indent:-2em;margin-bottom:.5rem;">Hofmann, S. G., Asnaani, A., Vonk, I. J. J., Sawyer, A. T., &amp; Fang, A. (2012). The efficacy of cognitive behavioral therapy: A review of meta-analyses. <em>Cognitive Therapy and Research</em>, <em>36</em>(5), 427–440.</p>
+              <p style="padding-left:2em;text-indent:-2em;margin-bottom:.5rem;">Hülsheger, U. R., Alberts, H. J. E. M., Feinholdt, A., &amp; Lang, J. W. B. (2013). Benefits of mindfulness at work: The role of mindfulness in emotion regulation, emotional exhaustion, and job satisfaction. <em>Journal of Applied Psychology</em>, <em>98</em>(2), 310–325.</p>
+              <p style="padding-left:2em;text-indent:-2em;margin-bottom:.5rem;">King, D. L., Delfabbro, P. H., Billieux, J., &amp; Potenza, M. N. (2024). A systematic review of the nature and efficacy of Rational Emotive Behaviour Therapy interventions. <em>PLOS ONE</em>, <em>19</em>(7), e0306835.</p>
+              <p style="padding-left:2em;text-indent:-2em;margin-bottom:.5rem;">Lehrer, P., Kaur, K., Sharma, A., Shah, K., Huseby, R., Bhavsar, J., &amp; Zhang, Y. (2020). Heart rate variability biofeedback improves emotional and physical health and performance: A systematic review and meta-analysis. <em>Applied Psychophysiology and Biofeedback</em>, <em>45</em>(3), 109–129.</p>
+              <p style="padding-left:2em;text-indent:-2em;margin-bottom:.5rem;">Longmire, N. H., &amp; Harrison, D. A. (2018). Seeing their side versus feeling their pain: Differential consequences of perspective-taking and empathy at work. <em>Journal of Applied Psychology</em>, <em>103</em>(8), 894–915.</p>
+              <p style="padding-left:2em;text-indent:-2em;margin-bottom:.5rem;">Ludolph, R., &amp; Schulz, P. J. (2018). Debiasing health-related judgments and decision making: A systematic review. <em>Medical Decision Making</em>, <em>38</em>(1), 3–13.</p>
+              <p style="padding-left:2em;text-indent:-2em;margin-bottom:.5rem;">Ma, X., Yue, Z.-Q., Gong, Z.-Q., Zhang, H., Duan, N.-Y., Shi, Y.-T., Wei, G.-X., &amp; Li, Y.-F. (2017). The effect of diaphragmatic breathing on attention, negative affect and stress in healthy adults. <em>Frontiers in Psychology</em>, <em>8</em>, 874.</p>
+              <p style="padding-left:2em;text-indent:-2em;margin-bottom:.5rem;">Merla, I., Gabbert, F., &amp; Scott, A. J. (2025). Interventions to reduce implicit bias in high-stakes professional judgements: A systematic review. <em>Behavioral Sciences</em>, <em>15</em>(11), 1592.</p>
+              <p style="padding-left:2em;text-indent:-2em;margin-bottom:.5rem;">O'Daffer, A., Colt, S. F., Wasil, A. R., &amp; Luo, A. (2022). Efficacy and mechanisms of digital mindfulness interventions: A systematic review and meta-analysis. <em>JMIR Mental Health</em>, <em>9</em>(4), e36631.</p>
+              <p style="padding-left:2em;text-indent:-2em;margin-bottom:.5rem;">Pilcher, J. J., Baker, V. C., &amp; Roll, J. D. (2025). Brief slow-paced breathing improves working memory, mood, and stress in college students. <em>Anxiety, Stress, &amp; Coping</em>, <em>38</em>(5), 528–543.</p>
+              <p style="padding-left:2em;text-indent:-2em;margin-bottom:.5rem;">Pop, G. V., Szentágotai-Tătar, A., &amp; Visu-Petra, L. (2025). Anger and emotion regulation strategies: A meta-analysis. <em>Scientific Reports</em>, <em>15</em>, 6491.</p>
+              <p style="padding-left:2em;text-indent:-2em;margin-bottom:.5rem;">Raugh, I. M., Berglund, A. M., &amp; Strauss, G. P. (2024). Implementation of mindfulness-based emotion regulation strategies: A systematic review and meta-analysis. <em>Affective Science</em>, <em>5</em>(4), 330–345.</p>
+              <p style="padding-left:2em;text-indent:-2em;margin-bottom:.5rem;">Sætrevik, B., Granerud, T., Nijhof, M., &amp; Sandvik, A. (2025). Tactical breathing enhances police performance in a critical incident simulation. <em>Collabra: Psychology</em>, <em>11</em>(1), 144527.</p>
+              <p style="padding-left:2em;text-indent:-2em;margin-bottom:.5rem;">Sakiris, N., &amp; Berle, D. (2019). A systematic review and meta-analysis of the Unified Protocol as a transdiagnostic emotion regulation based intervention. <em>Clinical Psychology Review</em>, <em>72</em>, 101751.</p>
+              <p style="padding-left:2em;text-indent:-2em;margin-bottom:.5rem;">Shao, D., Zhang, H.-H., Long, Z.-T., &amp; Li, J. (2024). The effect of slow-paced breathing on cardiovascular and emotion functions: A meta-analysis and systematic review. <em>Mindfulness</em>, <em>15</em>(1), 61–88.</p>
+              <p style="padding-left:2em;text-indent:-2em;margin-bottom:.5rem;">Sohal, M., Singh, P., Dhillon, B. S., &amp; Gill, H. S. (2022). Efficacy of journaling in the management of mental illness: A systematic review and meta-analysis. <em>Family Medicine and Community Health</em>, <em>10</em>(1), e001154.</p>
+              <p style="padding-left:2em;text-indent:-2em;margin-bottom:.5rem;">Swaryandini, G., Graham, J., Griffith, S., Oswald, F. L., Costello, T. H., &amp; Pennycook, G. (2025). Systematic review and meta-analysis of educational approaches to reduce cognitive biases among students. <em>Nature Human Behaviour</em>, <em>9</em>(12), 2510–2538.</p>
+              <p style="padding-left:2em;text-indent:-2em;margin-bottom:.5rem;">Toet, A., Bijlsma, M. J., &amp; van Erp, J. B. F. (2021). "Now you see it, now you don't"—Retention and transfer of cognitive bias mitigation interventions: A systematic literature study. <em>Frontiers in Psychology</em>, <em>12</em>, 629354.</p>
+              <p style="padding-left:2em;text-indent:-2em;margin-bottom:.5rem;">Van der Linden, D., Frese, M., &amp; Meijman, T. F. (2003). Mental fatigue and the control of cognitive processes: Effects on perseveration and planning. <em>Acta Psychologica</em>, <em>113</em>(1), 45–65.</p>
+              <p style="padding-left:2em;text-indent:-2em;margin-bottom:.5rem;">Visted, E., Vøllestad, J., Nielsen, M. B., &amp; Schanche, E. (2018). Emotion regulation in current and remitted depression: A systematic review and meta-analysis. <em>Frontiers in Psychology</em>, <em>9</em>, 756.</p>
+              <p style="padding-left:2em;text-indent:-2em;margin-bottom:.5rem;">Warsitzka, M., Zhang, H., Beersma, B., Freund, P. A., &amp; Trötschel, R. (2024). Expanding the pie or spoiling the cake? How the number of negotiation issues affects integrative bargaining. <em>Journal of Applied Psychology</em>, <em>109</em>(8), 1224–1249.</p>
+              <p style="padding-left:2em;text-indent:-2em;margin-bottom:.5rem;">Whelehan, D. F., Conlon, K. C., &amp; Ridgway, P. F. (2020). Medicine and heuristics: Cognitive biases and medical decision-making. <em>Irish Journal of Medical Science</em>, <em>189</em>(4), 1477–1484.</p>
+              <p style="padding-left:2em;text-indent:-2em;margin-bottom:.5rem;">Zhang, D., Lee, E. K. P., Mak, E. C. W., Ho, C. Y., &amp; Wong, S. Y. S. (2021). Mindfulness-based interventions: An overall review. <em>British Medical Bulletin</em>, <em>138</em>(1), 41–57.</p>
+            </div>
+            <p style="margin-top:1rem;font-size:.82rem;color:var(--muted);">Total: 38 peer-reviewed references. Last verified: April 2026.</p>
+          </div></div>
+        </div>
+
+        <div class="accordion-item">
+          <button class="accordion-trigger" aria-expanded="false">
+            <span class="accordion-q">Is Mind Cue really free?</span>
+            <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="accordion-body"><div class="accordion-body-inner">
+            <p>Yes — completely free. No subscription, no freemium tier, no in-app purchases.</p>
+            <p>Mind Cue is a personal project built out of genuine interest in applying behavioural science to everyday professional life. Infrastructure costs (Firebase, occasional AI API calls) are covered by the developer.</p>
+            <p>If the project grows and costs become significant, a voluntary contribution option may be considered — but paywalling features is not the plan.</p>
+          </div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ CONTACT ════════════════════════════════════════ -->
+<section class="section" id="contact">
+  <div class="container">
+    <div class="contact-layout">
+      <div>
+        <span class="tag">Get in touch</span>
+        <h2 class="section__title" style="margin-top:.75rem">Questions, feedback, ideas</h2>
+        <p style="font-size:.95rem;color:var(--muted);line-height:1.7;margin-top:1rem;">Mind Cue is a one-person project. Every message is read personally. Whether you have a research suggestion, a bug report, or just want to talk about behavioural science — I'd like to hear from you.</p>
+        <div style="margin-top:2rem;display:flex;align-items:center;gap:1rem;">
+          <img src="icon.jpg" alt="Mind Cue" style="width:52px;height:52px;border-radius:12px;object-fit:cover;">
+          <div>
+            <div style="font-weight:600;font-size:1rem">Paweł Rosner</div>
+            <div style="font-size:.85rem;color:var(--muted)">Creator &amp; developer, Mind Cue</div>
+          </div>
+        </div>
+        <div style="margin-top:1.5rem;display:flex;flex-direction:column;gap:.75rem;">
+          <a href="mailto:mindcue@pm.me" class="contact-link">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            mindcue@pm.me
+          </a>
+        </div>
+      </div>
+
+      <div style="padding:3rem;background:var(--sand);border-radius:var(--r-xl);">
+        <div style="font-size:.78rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:1.5rem">Common topics</div>
+        <div style="display:flex;flex-direction:column;gap:1rem;">
+          <div style="padding:1rem 1.25rem;background:white;border-radius:var(--r-md);border:1px solid var(--border);">
+            <div style="font-weight:600;font-size:.9rem;margin-bottom:.25rem">🐛 Bug reports</div>
+            <div style="font-size:.83rem;color:var(--muted)">Include your iOS version and a description of what happened vs. what you expected.</div>
+          </div>
+          <div style="padding:1rem 1.25rem;background:white;border-radius:var(--r-md);border:1px solid var(--border);">
+            <div style="font-weight:600;font-size:.9rem;margin-bottom:.25rem">📚 Research suggestions</div>
+            <div style="font-size:.83rem;color:var(--muted)">Know a paper that should inform a technique or article? Send it over.</div>
+          </div>
+          <div style="padding:1rem 1.25rem;background:white;border-radius:var(--r-md);border:1px solid var(--border);">
+            <div style="font-weight:600;font-size:.9rem;margin-bottom:.25rem">💡 Feature ideas</div>
+            <div style="font-size:.83rem;color:var(--muted)">The bar is: does this reduce complexity, not add it?</div>
+          </div>
+          <div style="padding:1rem 1.25rem;background:white;border-radius:var(--r-md);border:1px solid var(--border);">
+            <div style="font-weight:600;font-size:.9rem;margin-bottom:.25rem">🔒 Privacy concerns</div>
+            <div style="font-size:.83rem;color:var(--muted)">If you believe there is a privacy or security issue, please email directly — not via public channels.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ FOOTER ═════════════════════════════════════════ -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-logo">
+        <img src="icon.jpg" alt="Mind Cue">
+        Mind Cue
+      </div>
+      <nav class="footer-links">
+        <a href="#features">Features</a>
+        <a href="#screens">Screenshots</a>
+        <a href="#privacy">Privacy</a>
+        <a href="#faq">FAQ</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <p class="footer-copy">© 2026 Paweł Rosner. Free, always.</p>
+    </div>
+  </div>
+</footer>
+
+<!-- ══════════════════ JAVASCRIPT ═════════════════════════════════════ -->
+<script>
+  // Nav scroll
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+  }, { passive: true });
+
+  // Cookie
+  function dismissCookie() {
+    document.getElementById('cookieBanner').classList.add('hidden');
+    localStorage.setItem('mcCookieDismissed', '1');
+  }
+  if (localStorage.getItem('mcCookieDismissed')) {
+    document.getElementById('cookieBanner').classList.add('hidden');
+  }
+
+  // Accordion
+  document.querySelectorAll('.accordion-trigger').forEach(trigger => {
+    trigger.addEventListener('click', () => {
+      const item   = trigger.closest('.accordion-item');
+      const body   = item.querySelector('.accordion-body');
+      const inner  = item.querySelector('.accordion-body-inner');
+      const isOpen = item.classList.contains('open');
+
+      document.querySelectorAll('.accordion-item.open').forEach(open => {
+        open.classList.remove('open');
+        open.querySelector('.accordion-body').style.maxHeight = '0';
+        open.querySelector('.accordion-trigger').setAttribute('aria-expanded','false');
+      });
+
+      if (!isOpen) {
+        item.classList.add('open');
+        body.style.maxHeight = inner.scrollHeight + 'px';
+        trigger.setAttribute('aria-expanded','true');
+      }
+    });
+  });
+
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -50px 0px' });
+
+  document.querySelectorAll('.feat, .usecase-card, .study-card, .privacy-card, .purpose-card, .article-item').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'opacity .5s ease, transform .5s ease';
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>
