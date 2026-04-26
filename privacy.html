@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Privacy Policy — Mind Cue</title>
+  <link rel="stylesheet" href="fonts/fonts.css">
+  <style>
+    :root {
+      --brand:      #C1532A;
+      --brand-dk:   #8B3518;
+      --brand-pale: #FAEAE4;
+      --dark:   #1E0C06;
+      --cream:  #FAF7F4;
+      --sand:   #F0E6DC;
+      --text:   #1A0E08;
+      --muted:  #7A6055;
+      --border: rgba(30,12,6,.10);
+      --white:  #FFFFFF;
+      --font-sans: 'Inter', system-ui, sans-serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--cream);
+      color: var(--text);
+      font-family: var(--font-sans);
+      font-size: 1rem;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--brand); }
+    a:hover { color: var(--brand-dk); }
+
+    /* ── Header ── */
+    header {
+      background: var(--dark);
+      color: var(--white);
+      padding: 48px 24px 40px;
+      text-align: center;
+    }
+    .header-back {
+      display: inline-flex; align-items: center; gap: 6px;
+      color: rgba(255,255,255,.55);
+      font-size: .85rem;
+      text-decoration: none;
+      margin-bottom: 20px;
+    }
+    .header-back:hover { color: var(--white); }
+    header h1  { font-size: 2rem; font-weight: 700; }
+    header p   { margin-top: 8px; color: rgba(255,255,255,.55); font-size: .9rem; }
+
+    /* ── Content ── */
+    article {
+      max-width: 740px;
+      margin: 0 auto;
+      padding: 48px 24px 80px;
+    }
+
+    h2 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--dark);
+      margin: 40px 0 14px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--border);
+    }
+    h3 { font-size: 1rem; font-weight: 600; margin: 24px 0 10px; }
+    p  { margin-bottom: 14px; font-size: .95rem; color: var(--text); }
+    ul { margin: 10px 0 14px 22px; }
+    li { font-size: .95rem; color: var(--text); margin-bottom: 6px; }
+
+    /* Glance box */
+    .glance {
+      background: var(--brand-pale);
+      border-radius: 14px;
+      padding: 20px 24px;
+      margin: 8px 0 32px;
+    }
+    .glance strong { font-size: .95rem; }
+    .glance p { margin-bottom: 6px; font-size: .9rem; color: var(--text); }
+
+    /* Tables */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0 20px;
+      font-size: .88rem;
+    }
+    th {
+      background: var(--sand);
+      color: var(--dark);
+      text-align: left;
+      padding: 10px 14px;
+      font-weight: 600;
+    }
+    td { padding: 10px 14px; border-bottom: 1px solid var(--border); vertical-align: top; }
+    tr:last-child td { border-bottom: none; }
+
+    /* ── Footer ── */
+    footer {
+      background: var(--dark);
+      color: rgba(255,255,255,.5);
+      padding: 32px 24px;
+      text-align: center;
+      font-size: .82rem;
+    }
+    .footer-links { display: flex; justify-content: center; gap: 1.5rem; margin-bottom: 10px; }
+    .footer-links a { color: rgba(255,255,255,.4); text-decoration: none; transition: color .2s; }
+    .footer-links a:hover { color: var(--white); }
+  </style>
+</head>
+<body>
+
+<header>
+  <a class="header-back" href="index.html">← Back to Mind Cue</a>
+  <h1>Privacy Policy</h1>
+  <p>Last updated: 26 April 2026 &nbsp;·&nbsp; Effective: 26 April 2026</p>
+</header>
+
+<article>
+
+  <div class="glance">
+    <strong>At a glance</strong><br><br>
+    <p>✅ We collect only what's needed to make the app work for you</p>
+    <p>✅ Your journal entries are stored encrypted on-device only — never uploaded</p>
+    <p>✅ All cloud data lives in the EU (Google Cloud europe-west1)</p>
+    <p>✅ We never sell your data or share it with advertisers</p>
+    <p>✅ AI features are opt-in and send only anonymous event context to Anthropic</p>
+    <p>✅ You can export or permanently delete everything from Settings</p>
+  </div>
+
+  <h2>1. Who we are</h2>
+  <p>Mind Cue ("we", "us", "our") is a mobile application designed to help users manage stress, emotions, and behaviours through evidence-based techniques linked to their calendar events.</p>
+  <p>
+    <strong>Data Controller:</strong><br>
+    Paweł Rosner<br>
+    Mochnackiego 19/1, Poland<br><br>
+    <strong>Privacy contact:</strong> <a href="mailto:mindcue@pm.me">mindcue@pm.me</a>
+  </p>
+
+  <h2>2. What data we collect</h2>
+
+  <h3>2.1 Account data</h3>
+  <table>
+    <tr><th>Data</th><th>Purpose</th><th>Legal basis</th></tr>
+    <tr><td>Name</td><td>Display in the app</td><td>Contract performance</td></tr>
+    <tr><td>Email address</td><td>Account identification</td><td>Contract performance</td></tr>
+    <tr><td>Apple ID identifier</td><td>Authentication</td><td>Contract performance</td></tr>
+  </table>
+
+  <h3>2.2 Calendar data</h3>
+  <p>We access your device calendar (via Apple EventKit) only with your explicit permission. You can revoke access at any time in iOS Settings → Privacy &amp; Security → Calendars. iOS Calendar sync is <strong>off by default</strong> and must be enabled manually.</p>
+  <table>
+    <tr><th>Data</th><th>Purpose</th><th>Legal basis</th></tr>
+    <tr><td>Event titles</td><td>Categorise events and select relevant tips</td><td>Consent</td></tr>
+    <tr><td>Event times and duration</td><td>Schedule notifications, generate insights</td><td>Consent</td></tr>
+    <tr><td>Event descriptions</td><td>Improve tip personalisation via AI</td><td>Consent</td></tr>
+    <tr><td>Participant names</td><td>Context for event classification</td><td>Consent</td></tr>
+  </table>
+
+  <h3>2.3 Self-reported wellbeing data</h3>
+  <table>
+    <tr><th>Data</th><th>Purpose</th><th>Legal basis</th></tr>
+    <tr><td>Mood ratings (1–5)</td><td>Track patterns, generate insights</td><td>Consent</td></tr>
+    <tr><td>Emotion tags</td><td>Identify stress triggers, personalise content</td><td>Consent</td></tr>
+    <tr><td>ABC journal entries</td><td>Self-reflection — stored on-device only, never uploaded</td><td>Consent</td></tr>
+    <tr><td>Technique feedback</td><td>Improve recommendations</td><td>Consent</td></tr>
+  </table>
+
+  <h3>2.4 Survey data</h3>
+  <table>
+    <tr><th>Data</th><th>Purpose</th><th>Legal basis</th></tr>
+    <tr><td>Primary goals</td><td>Personalise tips and content</td><td>Consent</td></tr>
+    <tr><td>Stress triggers</td><td>Match techniques to your needs</td><td>Consent</td></tr>
+    <tr><td>Prior mindfulness experience</td><td>Adjust technique difficulty</td><td>Consent</td></tr>
+    <tr><td>Learning preferences</td><td>Optimise content format</td><td>Consent</td></tr>
+    <tr><td>Work context</td><td>Contextualise recommendations</td><td>Consent</td></tr>
+  </table>
+
+  <h3>2.5 Technical data</h3>
+  <table>
+    <tr><th>Data</th><th>Purpose</th><th>Legal basis</th></tr>
+    <tr><td>Device type and OS version</td><td>Ensure compatibility</td><td>Legitimate interest</td></tr>
+    <tr><td>App version</td><td>Debugging, feature availability</td><td>Legitimate interest</td></tr>
+    <tr><td>Crash reports (Firebase Crashlytics)</td><td>Fix bugs, improve stability</td><td>Legitimate interest</td></tr>
+    <tr><td>Anonymous usage analytics</td><td>Understand feature usage</td><td>Consent</td></tr>
+  </table>
+
+  <h3>2.6 Data we do NOT collect</h3>
+  <ul>
+    <li>Location data</li>
+    <li>Contacts or address book</li>
+    <li>Photos, camera, or microphone</li>
+    <li>Browsing history or data from other apps</li>
+    <li>Financial or payment information (handled entirely by Apple)</li>
+  </ul>
+
+  <h2>3. How we use artificial intelligence</h2>
+  <p>We use Claude, an AI model by Anthropic, to classify calendar events and personalise technique recommendations. AI features are <strong>opt-in only</strong> and gated by your explicit consent.</p>
+  <p>We send only the minimum data necessary — event titles, categories, and anonymised preference summaries. We never send your name, email, full journal history, or health data to Anthropic.</p>
+  <p>Anthropic's API does not use data submitted via the API to train its models. See <a href="https://www.anthropic.com/privacy" target="_blank">anthropic.com/privacy</a>.</p>
+
+  <h2>4. Where your data is stored</h2>
+  <table>
+    <tr><th>Service</th><th>Provider</th><th>Location</th><th>Purpose</th></tr>
+    <tr><td>Cloud Firestore</td><td>Google Cloud</td><td>EU (europe-west1)</td><td>All user data storage</td></tr>
+    <tr><td>Firebase Auth</td><td>Google Cloud</td><td>EU (europe-west1)</td><td>User sign-in</td></tr>
+    <tr><td>Cloud Functions</td><td>Google Cloud</td><td>EU (europe-west1)</td><td>Backend processing</td></tr>
+    <tr><td>Claude API</td><td>Anthropic</td><td>United States</td><td>AI features (opt-in)</td></tr>
+    <tr><td>Firebase Crashlytics</td><td>Google Cloud</td><td>United States</td><td>Crash reporting</td></tr>
+    <tr><td>ABC Journal</td><td>On-device (SwiftData)</td><td>Your device only</td><td>Private journal entries</td></tr>
+  </table>
+  <p>International transfers to the US rely on Standard Contractual Clauses (SCCs) and the providers' data processing agreements.</p>
+
+  <h2>5. Data retention</h2>
+  <table>
+    <tr><th>Data type</th><th>Retention period</th></tr>
+    <tr><td>Account data</td><td>Until you delete your account</td></tr>
+    <tr><td>Calendar events, mood &amp; check-ins</td><td>Until you delete them or your account</td></tr>
+    <tr><td>ABC journal entries</td><td>On-device only — deleted when you delete the app</td></tr>
+    <tr><td>Consent records</td><td>3 years after account deletion (legal requirement)</td></tr>
+    <tr><td>Crash reports</td><td>90 days</td></tr>
+    <tr><td>Anonymous analytics</td><td>26 months</td></tr>
+  </table>
+  <p>When you delete your account, all personal data is deleted immediately. Consent records are retained for 3 years as required by applicable law.</p>
+
+  <h2>6. Who we share your data with</h2>
+  <p>We do <strong>not</strong> sell your data. We do <strong>not</strong> share your data with advertisers.</p>
+  <table>
+    <tr><th>Provider</th><th>Purpose</th><th>Data shared</th></tr>
+    <tr><td>Google (Firebase)</td><td>Infrastructure, authentication, storage</td><td>All app data (encrypted)</td></tr>
+    <tr><td>Anthropic (Claude API)</td><td>AI features (opt-in only)</td><td>Event titles, categories (anonymised)</td></tr>
+    <tr><td>Apple (Sign in with Apple)</td><td>Authentication</td><td>Apple ID token</td></tr>
+  </table>
+  <p>All providers are bound by data processing agreements that comply with GDPR requirements.</p>
+
+  <h2>7. Your rights under GDPR</h2>
+  <p>If you are in the EEA, you have the following rights:</p>
+  <ul>
+    <li><strong>Access:</strong> View and export all your data via Settings → Export my data</li>
+    <li><strong>Rectification:</strong> Edit your profile, events, and survey responses at any time in the app</li>
+    <li><strong>Erasure:</strong> Permanently delete your account and all data via Settings → Delete account</li>
+    <li><strong>Portability:</strong> Export your data in JSON format via Settings → Export my data</li>
+    <li><strong>Restrict processing:</strong> Disable specific processing via Settings → Privacy &amp; Data</li>
+    <li><strong>Withdraw consent:</strong> Toggle any optional consent off at any time in Settings → Privacy &amp; Data</li>
+    <li><strong>Lodge a complaint:</strong> Contact the Polish DPA at <a href="https://uodo.gov.pl" target="_blank">uodo.gov.pl</a></li>
+  </ul>
+  <p>To exercise rights not available in-app, contact us at <a href="mailto:mindcue@pm.me">mindcue@pm.me</a>.</p>
+
+  <h2>8. Consent management</h2>
+  <p>All optional processing is controlled by you. During onboarding and at any time via Settings → Privacy &amp; Data, you can independently toggle:</p>
+  <table>
+    <tr><th>Consent</th><th>What it controls</th><th>Required?</th></tr>
+    <tr><td>Analytics</td><td>Anonymous usage tracking</td><td>No</td></tr>
+    <tr><td>Personalisation</td><td>AI-powered tip matching</td><td>No</td></tr>
+    <tr><td>AI processing</td><td>Sending event context to Claude API</td><td>No</td></tr>
+    <tr><td>Notifications</td><td>Push notifications for tips and check-ins</td><td>No</td></tr>
+  </table>
+  <p>The app functions fully without any optional consent — calendar, manual tips, and journalling all work without AI or analytics enabled.</p>
+
+  <h2>9. Children's privacy</h2>
+  <p>Mind Cue is not intended for users under 16. We do not knowingly collect data from children. If you believe a child has provided data, contact <a href="mailto:mindcue@pm.me">mindcue@pm.me</a> and we will delete it promptly.</p>
+
+  <h2>10. Security</h2>
+  <ul>
+    <li>All data is encrypted in transit (TLS 1.2+) and at rest (AES-256 / AES-GCM)</li>
+    <li>Authentication uses Sign in with Apple — no passwords are stored by us</li>
+    <li>ABC journal entries are encrypted on-device using AES-GCM before storage</li>
+    <li>Firestore security rules enforce strict per-user data isolation</li>
+    <li>The Claude API key is server-side only — never shipped in the app binary</li>
+  </ul>
+
+  <h2>11. Changes to this policy</h2>
+  <p>Material changes will be announced via in-app notification and reflected in the "Last updated" date above. Where required by law, we will ask for your renewed consent.</p>
+
+  <h2>12. Contact</h2>
+  <p>
+    Email: <a href="mailto:mindcue@pm.me">mindcue@pm.me</a><br>
+    Address: Mochnackiego 19/1, Poland
+  </p>
+
+</article>
+
+<footer>
+  <div class="footer-links">
+    <a href="index.html">Home</a>
+    <a href="terms.html">Terms &amp; Conditions</a>
+    <a href="mailto:mindcue@pm.me">mindcue@pm.me</a>
+  </div>
+  <p>&copy; 2026 Paweł Rosner.</p>
+</footer>
+
+</body>
+</html>
