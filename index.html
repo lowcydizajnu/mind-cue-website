@@ -867,7 +867,7 @@
         <div class="feat__visual" style="background:var(--sand);padding:1.5rem;display:flex;gap:.75rem;align-items:center;">
           <div style="flex:1;display:flex;flex-direction:column;gap:.5rem;">
             <div style="background:white;border-radius:.5rem;padding:.6rem .75rem;font-size:.78rem;border-left:3px solid #5B8DB8;box-shadow:0 2px 8px rgba(0,0,0,.06)"><strong style="display:block;font-size:.8rem">📅 Synced from iOS Calendar</strong><span style="color:var(--muted)">Events appear automatically</span></div>
-            <div style="background:white;border-radius:.5rem;padding:.6rem .75rem;font-size:.78rem;border-left:3px solid #C1532A;box-shadow:0 2px 8px rgba(0,0,0,.06)"><strong style="display:block;font-size:.8rem">🤖 Auto-classified</strong><span style="color:var(--muted)">AI or rule-based — your choice</span></div>
+            <div style="background:white;border-radius:.5rem;padding:.6rem .75rem;font-size:.78rem;border-left:3px solid #C1532A;box-shadow:0 2px 8px rgba(0,0,0,.06)"><strong style="display:block;font-size:.8rem">🤖 Auto-classified</strong><span style="color:var(--muted)">On-device, deterministic</span></div>
             <div style="background:white;border-radius:.5rem;padding:.6rem .75rem;font-size:.78rem;border-left:3px solid #F09070;box-shadow:0 2px 8px rgba(0,0,0,.06)"><strong style="display:block;font-size:.8rem">💡 Technique delivered</strong><span style="color:var(--muted)">Before each event type</span></div>
           </div>
           <svg width="90" height="90" viewBox="0 0 90 90" fill="none">
@@ -924,28 +924,28 @@
         <p class="feat__text">Browse techniques and long-form articles. Add any technique directly to your calendar as a recurring practice — build mastery over time.</p>
       </div>
 
-      <!-- AI modes — half -->
+      <!-- Built smart, shipped private — half -->
       <div class="feat feat--half">
         <div class="feat__icon feat__icon--slate">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1A0E08" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1A0E08" stroke-width="2"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"/></svg>
         </div>
-        <h3 class="feat__title">AI mode — smart without surrender</h3>
-        <p class="feat__text">AI mode uses Claude by Anthropic to classify events and personalise notification copy. Coming soon as a paid option. Without AI, the app delivers intelligent survey-personalised recommendations on-device — built by humans who understand the research.</p>
+        <h3 class="feat__title">Built with advanced tech — shipped without it</h3>
+        <p class="feat__text">We used modern research tools and large-scale models during design and content curation, but the app you install does not call them at runtime. Every classification, recommendation, and insight is computed on-device using deterministic, auditable rules — because privacy beats convenience for the data that matters most.</p>
         <div class="mode-cards-grid">
           <div class="mode-card">
-            <div class="mode-card__header"><span class="mode-card__name">AI mode</span><span class="mode-card__badge mode-card__badge--on">Coming soon · Paid</span></div>
+            <div class="mode-card__header"><span class="mode-card__name">On-device</span><span class="mode-card__badge mode-card__badge--on">Always</span></div>
             <ul class="mode-card__list">
-              <li>Claude classifies events</li>
-              <li>Personalised notification copy</li>
-              <li>Cloud recommendations</li>
+              <li>Rule-based event classification</li>
+              <li>Survey-based personalisation</li>
+              <li>Deterministic technique matching</li>
             </ul>
           </div>
           <div class="mode-card">
-            <div class="mode-card__header"><span class="mode-card__name">Standard</span><span class="mode-card__badge mode-card__badge--off">Free · Default</span></div>
+            <div class="mode-card__header"><span class="mode-card__name">Off-device</span><span class="mode-card__badge mode-card__badge--off">Never</span></div>
             <ul class="mode-card__list">
-              <li>On-device classification</li>
-              <li>Survey-based personalisation</li>
-              <li>Zero data leaves device</li>
+              <li>No model inference at runtime</li>
+              <li>No journal content sent anywhere</li>
+              <li>No third-party recommendation engines</li>
             </ul>
           </div>
         </div>
@@ -1084,8 +1084,8 @@
           <div class="privacy-card">
             <div class="privacy-card__icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C1532A" stroke-width="2"><polyline points="22 12 16 12 13 21 7 3 4 12 2 12"/></svg></div>
             <div>
-              <div class="privacy-card__title">AI data minimisation</div>
-              <p class="privacy-card__text">When AI mode is on, event titles, participant names, and counts are forwarded to Claude for classification — never your full descriptions or journal content. Anthropic does not train on API data.</p>
+              <div class="privacy-card__title">No third-party model calls</div>
+              <p class="privacy-card__text">The app does not call third-party model APIs at runtime. There is no inference pipeline, no prompt logging, no external recommendation service. Classification and personalisation run entirely on your device using rules you can read.</p>
             </div>
           </div>
           <div class="privacy-card">
@@ -1320,10 +1320,10 @@
           <div style="margin-top:2rem;padding:1.25rem;background:white;border-radius:var(--r-md);border:1px solid var(--border);">
             <div style="font-size:.78rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.75rem">Quick facts</div>
             <div style="font-size:.85rem;color:var(--muted);display:flex;flex-direction:column;gap:.5rem;">
-              <div>✓ No proprietary AI black boxes</div>
+              <div>✓ No third-party model calls at runtime</div>
               <div>✓ Survey data encrypted on-device</div>
               <div>✓ All scoring rules are deterministic</div>
-              <div>✓ AI mode clearly labelled throughout</div>
+              <div>✓ Built with modern tools, shipped without them</div>
             </div>
           </div>
         </div>
@@ -1337,8 +1337,7 @@
           </button>
           <div class="accordion-body"><div class="accordion-body-inner">
             <p>Events are classified into one of 8 categories: <strong>Meeting, Communication, Focus, Decision, Learning, Administrative, Personal, and Wellbeing</strong>.</p>
-            <p><strong>Standard mode:</strong> A rule-based engine matches event title keywords against category patterns. Words like "standup", "sync", "review" match Communication; "write", "code", "design" match Focus; "decide", "vote" match Decision. Runs entirely on-device.</p>
-            <p><strong>AI mode:</strong> The event title (truncated), duration, and participant count string are sent to a secure cloud function which returns a category and confidence score. This personalises notification copy but never processes descriptions or participant names.</p>
+            <p>A rule-based engine matches event title keywords against category patterns. Words like "standup", "sync", "review" match Communication; "write", "code", "design" match Focus; "decide", "vote" match Decision. Runs entirely on-device with no network calls.</p>
           </div></div>
         </div>
 
@@ -1349,8 +1348,7 @@
           </button>
           <div class="accordion-body"><div class="accordion-body-inner">
             <p>Each technique has a set of event categories it is relevant to, plus a type tag (breathing, mindfulness, cognitive, physical, journaling, or planning).</p>
-            <p><strong>Standard mode:</strong> Techniques are filtered by matching event category, then re-ranked by user survey preferences (learning style, prior experience). Back-to-back events prioritise quick (≤5 min) techniques.</p>
-            <p><strong>AI mode:</strong> A secure cloud function receives the event category, title, whether it is back-to-back, and your goal and trigger labels (from survey payload — never from cloud storage). The model selects a primary technique with a personalised reason and up to two secondary alternatives.</p>
+            <p>Techniques are filtered by matching event category, then re-ranked on-device by your survey preferences (learning style, prior experience). Back-to-back events prioritise quick (≤5 min) techniques. The matching logic is deterministic and runs locally — no model inference, no network calls.</p>
             <p>The notification is delivered 15 minutes before the event, or 30 minutes for longer (&gt;1 hour) events.</p>
           </div></div>
         </div>
@@ -1389,20 +1387,7 @@
           </div></div>
         </div>
 
-        <div class="accordion-item">
-          <button class="accordion-trigger" aria-expanded="false">
-            <span class="accordion-q">What data is sent when AI mode is on?</span>
-            <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-          </button>
-          <div class="accordion-body"><div class="accordion-body-inner">
-            <p><strong>Event classification:</strong> Event title, duration, participant count (as an anonymised string), and a truncated description snippet for classification purposes only — never full descriptions, never participant names.</p>
-            <p><strong>Tip selection:</strong> Event title, category, whether back-to-back, your primary goal label (e.g. "reduce_stress"), and stress trigger labels. No free-text.</p>
-            <p><strong>Recommendations:</strong> Survey category labels only — primaryGoal, stressTriggers, learningPreference, workContext. These are passed in the function payload from your device. Survey data in Firestore is encrypted and the function has no decryption key — it never reads it.</p>
-            <p>Anthropic does not train on API data. See <a href="https://www.anthropic.com/privacy" style="color:var(--brand)">anthropic.com/privacy</a> for full details.</p>
-          </div></div>
-        </div>
-
-        <div class="accordion-item">
+<div class="accordion-item">
           <button class="accordion-trigger" aria-expanded="false">
             <span class="accordion-q">What is the ABC journal and how is it stored?</span>
             <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
@@ -1489,7 +1474,6 @@
           </button>
           <div class="accordion-body"><div class="accordion-body-inner">
             <p>The core app is free — calendar sync, all techniques, the ABC journal, insights, and the full article library.</p>
-            <p>AI-powered features (smart event classification, personalised notification copy, and AI-driven technique recommendations via Claude by Anthropic) will be introduced as a paid option in a future update. The standard, on-device experience will remain free.</p>
             <p>Think Cue is a personal project built out of genuine interest in applying behavioural science to everyday professional life.</p>
           </div></div>
         </div>

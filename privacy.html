@@ -126,7 +126,7 @@
     <p>✅ Your journal entries are stored encrypted on-device only — never uploaded</p>
     <p>✅ All cloud data lives in the EU (Google Cloud europe-west1)</p>
     <p>✅ We never sell your data or share it with advertisers</p>
-    <p>✅ AI features are opt-in and send only event titles, participant names and counts to Anthropic</p>
+    <p>✅ The app does not call third-party model APIs at runtime — no remote inference, no prompt logging</p>
     <p>✅ You can export or permanently delete everything from Settings</p>
   </div>
 
@@ -155,7 +155,7 @@
     <tr><th>Data</th><th>Purpose</th><th>Legal basis</th></tr>
     <tr><td>Event titles</td><td>Categorise events and select relevant tips</td><td>Consent</td></tr>
     <tr><td>Event times and duration</td><td>Schedule notifications, generate insights</td><td>Consent</td></tr>
-    <tr><td>Event descriptions</td><td>Improve tip personalisation via AI</td><td>Consent</td></tr>
+    <tr><td>Event descriptions</td><td>Improve on-device tip personalisation</td><td>Consent</td></tr>
     <tr><td>Participant names</td><td>Context for event classification</td><td>Consent</td></tr>
   </table>
 
@@ -196,10 +196,9 @@
     <li>Financial or payment information (handled entirely by Apple)</li>
   </ul>
 
-  <h2>3. How we use artificial intelligence</h2>
-  <p>We use Claude, an AI model by Anthropic, to classify calendar events and personalise technique recommendations. AI features are <strong>opt-in only</strong> and gated by your explicit consent.</p>
-  <p>We send only the minimum data necessary — event titles, participant names, participant counts, and anonymised preference summaries. We never send your name, email, full journal history, or health data to Anthropic.</p>
-  <p>Anthropic's API does not use data submitted via the API to train its models. See <a href="https://www.anthropic.com/privacy" target="_blank">anthropic.com/privacy</a>.</p>
+  <h2>3. How we use technology</h2>
+  <p>Think Cue was built with the help of modern research tools and large-scale models during design and content curation, but the app you install does <strong>not</strong> call any third-party model APIs at runtime. There is no remote inference pipeline, no prompt logging, and no external recommendation service in the shipped product.</p>
+  <p>All event classification, technique matching, and personalisation are computed on your device using deterministic, rule-based logic that you can audit on request. Privacy is prioritised over convenience for the data that matters most.</p>
 
   <h2>4. Where your data is stored</h2>
   <table>
@@ -207,7 +206,6 @@
     <tr><td>Cloud Firestore</td><td>Google Cloud</td><td>EU (europe-west1)</td><td>All user data storage</td></tr>
     <tr><td>Firebase Auth</td><td>Google Cloud</td><td>EU (europe-west1)</td><td>User sign-in</td></tr>
     <tr><td>Cloud Functions</td><td>Google Cloud</td><td>EU (europe-west1)</td><td>Backend processing</td></tr>
-    <tr><td>Claude API</td><td>Anthropic</td><td>United States</td><td>AI features (opt-in)</td></tr>
     <tr><td>Firebase Crashlytics</td><td>Google Cloud</td><td>United States</td><td>Crash reporting</td></tr>
     <tr><td>ABC Journal</td><td>On-device (SwiftData)</td><td>Your device only</td><td>Private journal entries</td></tr>
   </table>
@@ -230,7 +228,6 @@
   <table>
     <tr><th>Provider</th><th>Purpose</th><th>Data shared</th></tr>
     <tr><td>Google (Firebase)</td><td>Infrastructure, authentication, storage</td><td>All app data (encrypted)</td></tr>
-    <tr><td>Anthropic (Claude API)</td><td>AI features (opt-in only)</td><td>Event titles, participant names, counts (anonymised)</td></tr>
     <tr><td>Apple (Sign in with Apple)</td><td>Authentication</td><td>Apple ID token</td></tr>
   </table>
   <p>All providers are bound by data processing agreements that comply with GDPR requirements.</p>
@@ -253,11 +250,10 @@
   <table>
     <tr><th>Consent</th><th>What it controls</th><th>Required?</th></tr>
     <tr><td>Analytics</td><td>Anonymous usage tracking</td><td>No</td></tr>
-    <tr><td>Personalisation</td><td>AI-powered tip matching</td><td>No</td></tr>
-    <tr><td>AI processing</td><td>Sending event context to Claude API</td><td>No</td></tr>
+    <tr><td>Personalisation</td><td>On-device tip matching using your survey answers</td><td>No</td></tr>
     <tr><td>Notifications</td><td>Push notifications for tips and check-ins</td><td>No</td></tr>
   </table>
-  <p>The app functions fully without any optional consent — calendar, manual tips, and journalling all work without AI or analytics enabled.</p>
+  <p>The app functions fully without any optional consent — calendar, manual tips, and journalling all work without analytics enabled.</p>
 
   <h2>9. Children's privacy</h2>
   <p>Think Cue is not intended for users under 16. We do not knowingly collect data from children. If you believe a child has provided data, contact <a href="mailto:thinkcue@pm.me">thinkcue@pm.me</a> and we will delete it promptly.</p>
@@ -268,7 +264,7 @@
     <li>Authentication uses Sign in with Apple — no passwords are stored by us</li>
     <li>ABC journal entries are encrypted on-device using AES-GCM before storage</li>
     <li>Firestore security rules enforce strict per-user data isolation</li>
-    <li>The Claude API key is server-side only — never shipped in the app binary</li>
+    <li>No third-party model API keys are shipped in the app binary — there is no runtime model inference</li>
   </ul>
 
   <h2>11. Changes to this policy</h2>

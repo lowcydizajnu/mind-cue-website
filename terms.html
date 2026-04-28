@@ -132,7 +132,7 @@
     <li>Offers a structured journaling feature based on the ABC cognitive-behavioural model</li>
     <li>Tracks mood patterns and generates personal insights</li>
     <li>Provides a curated library of learning content based on peer-reviewed research</li>
-    <li>Optionally uses AI (Claude by Anthropic) to classify events and personalise technique recommendations</li>
+    <li>Classifies events and personalises technique recommendations using deterministic, on-device rules</li>
   </ul>
 
   <h2>3. Important disclaimers</h2>
@@ -140,8 +140,8 @@
   <h3>3.1 Not medical advice</h3>
   <p>The App does not diagnose, treat, cure, or prevent any mental health condition or disease. The techniques and content are intended for general wellbeing and self-awareness purposes only. The ABC journaling feature helps users build self-awareness about thought patterns — it does not constitute cognitive behavioural therapy or any form of psychotherapy.</p>
 
-  <h3>3.2 AI-generated content</h3>
-  <p>Some features use Claude (Anthropic) to classify events and personalise technique suggestions. AI-generated content may be inaccurate or inappropriate for your specific situation. Always use your own judgment and do not rely solely on AI suggestions.</p>
+  <h3>3.2 Automated suggestions</h3>
+  <p>Event classification and technique suggestions are produced by deterministic, rule-based logic running on your device. These suggestions may be inaccurate or inappropriate for your specific situation. Always use your own judgment and do not rely solely on automated suggestions.</p>
 
   <h3>3.3 Research basis</h3>
   <p>Techniques in the App are based on peer-reviewed research. We cite original research for transparency but do not claim that using the App will produce the same results as the cited studies.</p>
@@ -188,7 +188,6 @@
   <table>
     <tr><th>Service</th><th>Provider</th><th>Purpose</th></tr>
     <tr><td>Firebase</td><td>Google Cloud</td><td>Infrastructure, authentication, data storage</td></tr>
-    <tr><td>Claude API</td><td>Anthropic</td><td>AI-powered features (opt-in only)</td></tr>
     <tr><td>Apple EventKit</td><td>Apple</td><td>Calendar integration (opt-in only)</td></tr>
     <tr><td>Apple Push Notification Service</td><td>Apple</td><td>Push notifications</td></tr>
   </table>
